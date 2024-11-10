@@ -5,7 +5,7 @@ import ScrollToTop from "./AnimeComponents/ScrollToTop/ScrollToTop";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import NavBar from "./PageComponents/Navbar/NavBar";
-import HeroSection from "./PageComponents/Hero-section/HeroSection";
+import Hero from "./PageComponents/Hero/Hero";
 import About from "./PageComponents/About/About";
 import Services from "./PageComponents/Services/Services";
 import Contact from "./PageComponents/Contact/Contact";
@@ -40,7 +40,7 @@ export default function App() {
         <NavBar />
 
         <Routes>
-          <Route exact path="/" element={<HeroSection />} />
+          <Route exact path="/" element={<Hero />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
