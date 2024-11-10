@@ -6,7 +6,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import NavBar from "./PageComponents/Navbar/NavBar";
 import HeroSection from "./PageComponents/hero-section/HeroSection";
-import About from "./PageComponents/about/About";
+import About from "./PageComponents/About/About";
 import Services from "./PageComponents/services/Services";
 import Contact from "./PageComponents/contact/Contact";
 import Footer from "./PageComponents/footer/Footer";
