@@ -5,11 +5,11 @@ import ScrollToTop from "./AnimeComponents/ScrollToTop/ScrollToTop";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import NavBar from "./PageComponents/Navbar/NavBar";
-import HeroSection from "./PageComponents/hero-section/HeroSection";
+import HeroSection from "./PageComponents/Hero-section/HeroSection";
 import About from "./PageComponents/About/About";
-import Services from "./PageComponents/services/Services";
-import Contact from "./PageComponents/contact/Contact";
-import Footer from "./PageComponents/footer/Footer";
+import Services from "./PageComponents/Services/Services";
+import Contact from "./PageComponents/Contact/Contact";
+import Footer from "./PageComponents/Footer/Footer";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
