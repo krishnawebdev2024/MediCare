@@ -5,6 +5,7 @@ import styles from "./style.module.scss";
 import { opacity, slideUp } from "./anime";
 
 const words = [
+  "MediCare",
   "Guten tag",
   "Bonjour",
   "Ciao",
@@ -13,6 +14,7 @@ const words = [
   "Hallå",
   "Hello",
   "Hallo",
+  "MediCare",
 ];
 
 export default function Preloader() {

@@ -9,7 +9,7 @@ import Hero from "./PageComponents/Hero/Hero";
 import About from "./PageComponents/About/About";
 import Services from "./PageComponents/Services/Services";
 import Contact from "./PageComponents/Contact/Contact";
-//import Footer from "./PageComponents/Footer/Footer";
+import Footer from "./PageComponents/Footer/Footer";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -45,6 +45,7 @@ export default function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
         </Routes>
+        <Footer />
       </Router>
     </>
   );
