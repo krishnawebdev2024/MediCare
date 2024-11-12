@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import Logo from "../../assets/Logo.png";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -58,7 +59,10 @@ const Navbar = () => {
     <nav className=" fixed top-0 z-50 w-full bg-blue-600 dark:bg-gray-800 text-white p-4">
       <div className="container mx-auto flex items-center justify-between">
         <Link to="/" className="text-xl font-bold" onClick={closeMobileMenu}>
-          MediCare
+          <div className="flex items-center">
+            <img src={Logo} alt="Logo" className="w-12 h-12" />
+            <p className="text-white ">Medicare</p>
+          </div>
         </Link>
 
         {/* Desktop Links */}
