@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Routes, Route } from "react-router-dom";
 import {
   FiBarChart,
-  FiChevronDown,
   FiChevronsRight,
   FiDollarSign,
   FiHome,
@@ -12,18 +11,30 @@ import {
   FiUsers,
 } from "react-icons/fi";
 import { motion } from "framer-motion";
+import Appointments from "../1-AdminDashComponents/Appointments";
 
-const AdminDashboardLayout = () => {
+const DoctorDashboardLayout = () => {
   return (
-    <div className="flex bg-indigo-50 mt-[80px]">
+    <div className="flex bg-indigo-50 mt-[80px] relative">
       <Sidebar />
-      <ExampleContent />
+      <div className="w-full p-4">
+        <Routes>
+          <Route path="/" element={<DashboardPage />} />
+          <Route path="appointments" element={<Appointments />} />
+          <Route path="view-site" element={<ViewSitePage />} />
+          <Route path="products" element={<ProductsPage />} />
+          <Route path="tags" element={<TagsPage />} />
+          <Route path="analytics" element={<AnalyticsPage />} />
+          <Route path="members" element={<MembersPage />} />
+        </Routes>
+      </div>
     </div>
   );
 };
 
-export default AdminDashboardLayout;
+export default DoctorDashboardLayout;
 
+// Sidebar Component
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
   const [selected, setSelected] = useState("Dashboard");
@@ -32,9 +43,7 @@ const Sidebar = () => {
     <motion.nav
       layout
       className="sticky top-0 h-[calc(100vh-80px)] shrink-0 border-r border-slate-300 bg-white p-2"
-      style={{
-        width: open ? "300px" : "fit-content",
-      }}
+      style={{ width: open ? "300px" : "fit-content" }}
     >
       <TitleSection open={open} />
 
@@ -45,7 +54,7 @@ const Sidebar = () => {
           selected={selected}
           setSelected={setSelected}
           open={open}
-          to="/services"
+          to=""
         />
         <Option
           Icon={FiDollarSign}
@@ -53,7 +62,7 @@ const Sidebar = () => {
           selected={selected}
           setSelected={setSelected}
           open={open}
-          notifs={3}
+          to="appointments"
         />
         <Option
           Icon={FiMonitor}
@@ -61,6 +70,7 @@ const Sidebar = () => {
           selected={selected}
           setSelected={setSelected}
           open={open}
+          to="view-site"
         />
         <Option
           Icon={FiShoppingCart}
@@ -68,6 +78,7 @@ const Sidebar = () => {
           selected={selected}
           setSelected={setSelected}
           open={open}
+          to="products"
         />
         <Option
           Icon={FiTag}
@@ -75,7 +86,7 @@ const Sidebar = () => {
           selected={selected}
           setSelected={setSelected}
           open={open}
-          notifs={3}
+          to="tags"
         />
         <Option
           Icon={FiBarChart}
@@ -83,6 +94,7 @@ const Sidebar = () => {
           selected={selected}
           setSelected={setSelected}
           open={open}
+          to="analytics"
         />
         <Option
           Icon={FiUsers}
@@ -90,6 +102,7 @@ const Sidebar = () => {
           selected={selected}
           setSelected={setSelected}
           open={open}
+          to="members"
         />
       </div>
 
@@ -98,7 +111,7 @@ const Sidebar = () => {
   );
 };
 
-const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
+const Option = ({ Icon, title, selected, setSelected, open, to }) => {
   return (
     <motion.button
       layout
@@ -123,83 +136,52 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
           transition={{ delay: 0.125 }}
           className="text-xs font-medium"
         >
-          {title}
-        </motion.span>
-      )}
-
-      {notifs && open && (
-        <motion.span
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-          }}
-          style={{ y: "-50%" }}
-          transition={{ delay: 0.5 }}
-          className="absolute right-2 top-1/2 size-4 rounded bg-indigo-500 text-xs text-white"
-        >
-          {notifs}
+          <Link to={to}>{title}</Link>
         </motion.span>
       )}
     </motion.button>
   );
 };
 
-const TitleSection = ({ open }) => {
-  return (
-    <div className="mb-3 border-b border-slate-300 pb-3">
-      <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-slate-100">
-        <div className="flex items-center gap-2">
-          {open && (
-            <motion.div
-              layout
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.125 }}
-            >
-              <span className="block text-xs font-semibold">Admin</span>
-              <span className="block text-xs text-slate-500">
-                Medicare Personel
-              </span>
-            </motion.div>
-          )}
-        </div>
-        {/*    {open && <FiChevronDown className="mr-2" />} */}
-      </div>
+// TitleSection, ToggleClose, and Placeholder components for dashboard pages
+const TitleSection = ({ open }) => (
+  <div className="mb-3 border-b border-slate-300 pb-3">
+    <div className="flex items-center justify-between">
+      {open && <span className="text-xs font-semibold">Doctor Dashboard</span>}
     </div>
-  );
-};
+  </div>
+);
 
-const ToggleClose = ({ open, setOpen }) => {
-  return (
-    <motion.button
-      layout
-      onClick={() => setOpen((pv) => !pv)}
-      className="absolute bottom-0 left-0 right-0 border-t border-slate-300 transition-colors hover:bg-slate-100"
-    >
-      <div className="flex items-center p-2">
-        <motion.div
+const ToggleClose = ({ open, setOpen }) => (
+  <motion.button
+    layout
+    onClick={() => setOpen((prev) => !prev)}
+    className="absolute bottom-0 left-0 right-0 border-t border-slate-300 hover:bg-slate-100"
+  >
+    <div className="flex items-center p-2">
+      <motion.div layout className="grid size-10 place-content-center text-lg">
+        <FiChevronsRight className={`${open && "rotate-180"}`} />
+      </motion.div>
+      {open && (
+        <motion.span
           layout
-          className="grid size-10 place-content-center text-lg"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.125 }}
+          className="text-xs font-medium"
         >
-          <FiChevronsRight
-            className={`transition-transform ${open && "rotate-180"}`}
-          />
-        </motion.div>
-        {open && (
-          <motion.span
-            layout
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.125 }}
-            className="text-xs font-medium"
-          >
-            Close
-          </motion.span>
-        )}
-      </div>
-    </motion.button>
-  );
-};
+          Close
+        </motion.span>
+      )}
+    </div>
+  </motion.button>
+);
 
-const ExampleContent = () => <div className=" w-full"></div>;
+// Placeholder Components
+const DashboardPage = () => <div>Dashboard Contentgsdfgsdfg</div>;
+
+const ViewSitePage = () => <div>View Site Content</div>;
+const ProductsPage = () => <div>Products Content</div>;
+const TagsPage = () => <div>Tags Content</div>;
+const AnalyticsPage = () => <div>Analytics Content</div>;
+const MembersPage = () => <div>Members Content</div>;
