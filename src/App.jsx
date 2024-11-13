@@ -5,13 +5,15 @@ import ScrollToTop from "./AnimeComponents/ScrollToTop/ScrollToTop";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import NavBar from "./PageComponents/Navbar/NavBar";
-import Hero from "./PageComponents/Hero/Hero";
+import Home from "./PageComponents/Home/Home";
 import About from "./PageComponents/About/About";
 import Services from "./PageComponents/Services/Services";
 import Contact from "./PageComponents/Contact/Contact";
 import FooterLatest from "./PageComponents/FooterLatest/FooterLatest";
 
 import AdminDashboardLayout from "./Dashboard/AdminDashboardLayout";
+import DoctorDashboardLayout from "./Dashboard/DoctorDashboardLayout";
+import PatientDashboardLayout from "./Dashboard/PatientDashboardLayout";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,18 +39,23 @@ export default function App() {
       <AnimatePresence mode="wait">
         {isLoading && <Preloader />}
       </AnimatePresence>
-      <Router>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <ScrollToTop />
         <NavBar />
 
         <Routes>
-          <Route exact path="/" element={<Hero />} />
+          <Route exact path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
 
           {/* Nested routes  */}
           <Route path="admindashboard/*" element={<AdminDashboardLayout />} />
+          <Route path="doctordashboard/*" element={<DoctorDashboardLayout />} />
+          <Route
+            path="patientdashboard/*"
+            element={<PatientDashboardLayout />}
+          />
         </Routes>
 
         <FooterLatest />

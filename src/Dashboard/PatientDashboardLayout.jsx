@@ -13,7 +13,7 @@ import {
 import { motion } from "framer-motion";
 import Appointments from "../1-AdminDashComponents/Appointments";
 
-const AdminDashboardLayout = () => {
+const PatientDashboardLayout = () => {
   return (
     <div className="flex bg-indigo-50 mt-[80px] relative">
       <Sidebar />
@@ -32,7 +32,7 @@ const AdminDashboardLayout = () => {
   );
 };
 
-export default AdminDashboardLayout;
+export default PatientDashboardLayout;
 
 // Sidebar Component
 const Sidebar = () => {
@@ -147,7 +147,7 @@ const Option = ({ Icon, title, selected, setSelected, open, to }) => {
 const TitleSection = ({ open }) => (
   <div className="mb-3 border-b border-slate-300 pb-3">
     <div className="flex items-center justify-between">
-      {open && <span className="text-xs font-semibold">Admin Dashboard</span>}
+      {open && <span className="text-xs font-semibold">Patient Dashboard</span>}
     </div>
   </div>
 );
