@@ -79,6 +79,9 @@ const Navbar = () => {
           <Link to="/contact" className="hover:text-gray-300">
             Contact
           </Link>
+          <Link to="/admindashboard" className="hover:text-gray-300">
+            admin
+          </Link>
         </div>
 
         {/* Dark Mode Toggle Button */}

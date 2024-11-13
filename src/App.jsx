@@ -11,6 +11,8 @@ import Services from "./PageComponents/Services/Services";
 import Contact from "./PageComponents/Contact/Contact";
 import FooterLatest from "./PageComponents/FooterLatest/FooterLatest";
 
+import AdminDashboardLayout from "./Dashboard/AdminDashboardLayout";
+
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   // Simulate loading behavior
@@ -44,6 +46,9 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
+
+          {/* Nested routes  */}
+          <Route path="admindashboard/*" element={<AdminDashboardLayout />} />
         </Routes>
 
         <FooterLatest />
