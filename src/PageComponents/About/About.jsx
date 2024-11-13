@@ -251,7 +251,7 @@ const ExampleContent = () => (
         healthcare choices.
       </p>
       <button className="w-full rounded bg-neutral-900 px-9 py-4 text-xl text-white transition-colors hover:bg-neutral-700 md:w-fit">
-        Explore Our Plans <FiArrowUpRight className="inline" />
+        Read-More <FiArrowUpRight className="inline" />
       </button>
     </div>
   </div>

@@ -82,6 +82,12 @@ const Navbar = () => {
           <Link to="/admindashboard" className="hover:text-gray-300">
             admin
           </Link>
+          <Link to="/Doctordashboard" className="hover:text-gray-300">
+            Doctor
+          </Link>
+          <Link to="/Patientdashboard" className="hover:text-gray-300">
+            Patient
+          </Link>
         </div>
 
         {/* Dark Mode Toggle Button */}
@@ -113,6 +119,7 @@ const Navbar = () => {
                     Admin Login
                   </Link>
                 </li>
+
                 <li>
                   <Link
                     to="/doctor-login"
