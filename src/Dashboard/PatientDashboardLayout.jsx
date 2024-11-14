@@ -13,6 +13,8 @@ import {
 import { motion } from "framer-motion";
 import Appointments from "../1-AdminDashComponents/Appointments";
 
+import Logout from "../AccountCreate/Logout";
+
 const PatientDashboardLayout = () => {
   return (
     <div className="flex bg-indigo-50 mt-[80px] relative">
@@ -104,6 +106,10 @@ const Sidebar = () => {
           open={open}
           to="members"
         />
+      </div>
+
+      <div className="mt-5">
+        <Logout />
       </div>
 
       <ToggleClose open={open} setOpen={setOpen} />

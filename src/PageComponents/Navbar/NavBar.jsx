@@ -117,9 +117,6 @@ const Navbar = () => {
           <Link to="/Doctordashboard" className="hover:text-gray-300">
             Doctor
           </Link>
-          <Link to="/Patientdashboard" className="hover:text-gray-300">
-            Patient
-          </Link>
         </div>
 
         {/* Dark Mode Toggle Button */}
