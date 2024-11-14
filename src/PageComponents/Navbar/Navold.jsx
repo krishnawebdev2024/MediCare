@@ -1,30 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import Logo from "../../assets/Logo.png";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const dropdownRef = useRef(null);
-  const navigate = useNavigate();
-
-  const checkAuthStatus = () => {
-    const token = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("token="));
-    setIsAuthenticated(!!token);
-  };
-
-  // Check auth status on mount and whenever cookies change
-  useEffect(() => {
-    checkAuthStatus();
-  }, [document.cookie]);
 
   useEffect(() => {
-    // Load theme from localStorage
+    // Check localStorage for saved theme preference
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
       setIsDarkMode(true);
@@ -34,7 +19,7 @@ const Navbar = () => {
       document.documentElement.classList.remove("dark");
     }
 
-    // Handle outside clicks for dropdown
+    // Close dropdown when clicking outside
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setDropdownOpen(false);
@@ -55,6 +40,10 @@ const Navbar = () => {
     setMobileMenuOpen(false);
   };
 
+  const closeDropdown = () => {
+    setDropdownOpen(false);
+  };
+
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
     if (isDarkMode) {
@@ -66,33 +55,13 @@ const Navbar = () => {
     }
   };
 
-  // Handle login/logout button action
-  const handleAuthButtonClick = async () => {
-    if (isAuthenticated) {
-      // Logout the user
-      try {
-        await axios.post("http://localhost:3000/api/v1/users/logout", null, {
-          withCredentials: true,
-        });
-        document.cookie = "token=; Max-Age=0"; // Clear the token
-        setIsAuthenticated(false);
-        navigate("/about"); // Redirect after logout
-      } catch (error) {
-        console.error("Logout failed:", error);
-      }
-    } else {
-      // Redirect to login page
-      navigate("/patient-login");
-    }
-  };
-
   return (
-    <nav className="fixed top-0 z-50 w-full bg-blue-600 dark:bg-gray-800 text-white p-4">
+    <nav className=" fixed top-0 z-50 w-full bg-blue-600 dark:bg-gray-800 text-white p-4">
       <div className="container mx-auto flex items-center justify-between">
         <Link to="/" className="text-xl font-bold" onClick={closeMobileMenu}>
           <div className="flex items-center">
             <img src={Logo} alt="Logo" className="w-12 h-12" />
-            <p className="text-white">Medicare</p>
+            <p className="text-white ">Medicare</p>
           </div>
         </Link>
 
@@ -101,7 +70,6 @@ const Navbar = () => {
           <Link to="/" className="hover:text-gray-300">
             Home
           </Link>
-
           <Link to="/about" className="hover:text-gray-300">
             About Us
           </Link>
@@ -112,7 +80,7 @@ const Navbar = () => {
             Contact
           </Link>
           <Link to="/admindashboard" className="hover:text-gray-300">
-            Admin
+            admin
           </Link>
           <Link to="/Doctordashboard" className="hover:text-gray-300">
             Doctor
@@ -130,22 +98,55 @@ const Navbar = () => {
           {isDarkMode ? "🌙 Dark" : "☀️ Light"}
         </button>
 
-        {/* Auth Button */}
+        {/* User Links */}
         <div className="hidden md:flex space-x-4 items-center">
-          <button
-            onClick={handleAuthButtonClick}
-            className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
-          >
-            {isAuthenticated ? "Logout" : "Login"}
-          </button>
-          {!isAuthenticated && (
-            <Link
-              to="/createAccount"
+          {/* Custom Dropdown for Login Options */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setDropdownOpen(!isDropdownOpen)}
               className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
             >
-              Patient Sign Up
-            </Link>
-          )}
+              Login
+            </button>
+            {isDropdownOpen && (
+              <ul className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 shadow-lg rounded-md py-2 z-10">
+                <li>
+                  <Link
+                    to="/admin-login"
+                    className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                    onClick={closeDropdown}
+                  >
+                    Admin Login
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    to="/doctor-login"
+                    className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                    onClick={closeDropdown}
+                  >
+                    Doctor Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/patient-login"
+                    className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                    onClick={closeDropdown}
+                  >
+                    Patient Login
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </div>
+          <Link
+            to="/createAccount"
+            className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
+          >
+            Patient Sign Up
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -201,21 +202,53 @@ const Navbar = () => {
           >
             Services
           </Link>
-          <button
-            onClick={handleAuthButtonClick}
-            className="block bg-white text-blue-600 px-4 py-2 my-2 rounded hover:bg-gray-100 dark:bg-gray-700 dark:text-white"
-          >
-            {isAuthenticated ? "Logout" : "Login"}
-          </button>
-          {!isAuthenticated && (
-            <Link
-              to="/createAccount"
-              className="block bg-white text-blue-600 px-4 py-2 my-2 rounded hover:bg-gray-100 dark:bg-gray-700 dark:text-white"
-              onClick={closeMobileMenu}
+          {/* Login Dropdown in Mobile View */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setDropdownOpen(!isDropdownOpen)}
+              className="bg-white text-blue-600 px-4 py-2 m-2 rounded hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
             >
-              Patient Sign Up
-            </Link>
-          )}
+              Login
+            </button>
+            {isDropdownOpen && (
+              <ul className="mt-2 w-48 bg-white dark:bg-gray-700 shadow-lg rounded-md py-2 z-10">
+                <li>
+                  <Link
+                    to="/doctor-login"
+                    className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                    onClick={closeMobileMenu}
+                  >
+                    Doctor Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/patient-login"
+                    className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                    onClick={closeMobileMenu}
+                  >
+                    Patient Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/admin-login"
+                    className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+                    onClick={closeMobileMenu}
+                  >
+                    Admin Login
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </div>
+          <Link
+            to="/signup"
+            className="block bg-white text-blue-600 px-4 py-2 my-2 rounded hover:bg-gray-100 dark:bg-gray-700 dark:text-white"
+            onClick={closeMobileMenu}
+          >
+            Sign Up
+          </Link>
         </div>
       )}
     </nav>

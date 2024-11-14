@@ -15,6 +15,9 @@ import AdminDashboardLayout from "./Dashboard/AdminDashboardLayout";
 import DoctorDashboardLayout from "./Dashboard/DoctorDashboardLayout";
 import PatientDashboardLayout from "./Dashboard/PatientDashboardLayout";
 
+import Form from "./AccountCreate/Form";
+import LoginPage from "./AccountCreate/LoginPage";
+
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   // Simulate loading behavior
@@ -48,6 +51,10 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
           <Route path="/contact" element={<Contact />} />
+          {/* Signup and Login routes */}
+          <Route path="/createAccount" element={<Form />} />
+          <Route path="/patient-login" element={<LoginPage />} />
+          {/*  <Route path="/login" element={<Form type="login" />} /> */}
 
           {/* Nested routes  */}
           <Route path="admindashboard/*" element={<AdminDashboardLayout />} />

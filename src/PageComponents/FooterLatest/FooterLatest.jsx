@@ -13,9 +13,10 @@ const FooterLatest = () => {
             Ready to Experience Healthcare Redefined?
           </p>
           <div className="mt-4">
-            <Link to="/patient-signup" className="hover:text-gray-300">
+            <Link to="/createAccount">
               <div className="flex items-center">
                 <img src={Logo} alt="Logo" className="w-28 h-28" />
+
                 <p className="text-white ">Sign-Up</p>
               </div>
             </Link>
