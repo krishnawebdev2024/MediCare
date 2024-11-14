@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import HeroImage from "../../assets/HeroImage.png";
-import AccordionImage from "../../assets/AccordionImage.png";
+import AccordionImage from "../../assets/accordionImage.png";
 import { Link } from "react-router-dom";
 
 const Home = () => {
