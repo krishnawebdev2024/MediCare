@@ -70,7 +70,21 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="w-screen overflow-hidden   bg-slate-100 dark:bg-slate-800 flex items-center justify-center py-6 px-[80px]">
+      <div className="w-screen overflow-hidden h-auto bg-slate-100 dark:bg-slate-800 flex items-center justify-center p-6">
+        <div className=" text- z-10 p-6">
+          <h1 className="text-4xl  font-semibold mb-4 text-slate-900 dark:text-slate-200">
+            Empowering Financial Wellness for the Future.
+          </h1>
+          <p className="text-4xl  font-medium mb-6 text-slate-700 dark:text-slate-400">
+            Built on trust. Powered by innovation. We bring you a seamless,
+            personalized financial experience, crafted to support your goals at
+            every stage. Our mission: to make exceptional financial solutions
+            accessible, dependable, and designed around your unique journey.
+          </p>
+        </div>
+      </div>
+
+      <div className="w-screen overflow-hidden   bg-slate-100 dark:bg-slate-800 flex items-center justify-center  pb-[80px] px-[80px]">
         <div className=" flex flex-wrap sm:flex-nowrap gap-8 bg-slate-400 dark:bg-slate-600 w-full h-full rounded-3xl overflow-hidden p-8">
           <div className="space-y-4 flex-1">
             {items.map((item, index) => (

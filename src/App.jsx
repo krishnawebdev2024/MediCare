@@ -4,6 +4,8 @@ import Preloader from "./AnimeComponents/preloader/Preloader";
 import ScrollToTop from "./AnimeComponents/ScrollToTop/ScrollToTop";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import { AuthProvider } from "./contexts/index";
+
 import NavBar from "./PageComponents/Navbar/NavBar";
 import Home from "./PageComponents/Home/Home";
 import About from "./PageComponents/About/About";
@@ -42,31 +44,39 @@ export default function App() {
       <AnimatePresence mode="wait">
         {isLoading && <Preloader />}
       </AnimatePresence>
-      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <ScrollToTop />
-        <NavBar />
+      {/* Wrap the entire app with AuthProvider to make authentication state available globally */}
+      <AuthProvider>
+        <Router
+          future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+        >
+          <ScrollToTop />
+          <NavBar />
 
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/contact" element={<Contact />} />
-          {/* Signup and Login routes */}
-          <Route path="/createAccount" element={<Form />} />
-          <Route path="/patient-login" element={<LoginPage />} />
-          {/*  <Route path="/login" element={<Form type="login" />} /> */}
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/contact" element={<Contact />} />
+            {/* Signup and Login routes */}
+            <Route path="/createAccount" element={<Form />} />
+            <Route path="/patient-login" element={<LoginPage />} />
+            {/*  <Route path="/login" element={<Form type="login" />} /> */}
 
-          {/* Nested routes  */}
-          <Route path="admindashboard/*" element={<AdminDashboardLayout />} />
-          <Route path="doctordashboard/*" element={<DoctorDashboardLayout />} />
-          <Route
-            path="patientdashboard/*"
-            element={<PatientDashboardLayout />}
-          />
-        </Routes>
+            {/* Nested routes  */}
+            <Route path="admindashboard/*" element={<AdminDashboardLayout />} />
+            <Route
+              path="doctordashboard/*"
+              element={<DoctorDashboardLayout />}
+            />
+            <Route
+              path="patientdashboard/*"
+              element={<PatientDashboardLayout />}
+            />
+          </Routes>
 
-        <FooterLatest />
-      </Router>
+          <FooterLatest />
+        </Router>
+      </AuthProvider>
     </>
   );
 }
