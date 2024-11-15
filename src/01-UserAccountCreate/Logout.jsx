@@ -19,8 +19,12 @@ const Logout = () => {
       {loading ? (
         <p>Logging out...</p> // Show loading text while logging out
       ) : (
-        <button onClick={handleLogout} className="w-full btn btn-primary">
-          Logout
+        <button
+          onClick={handleLogout}
+          className="w-full px-4 py-2 rounded-md font-bold text-white bg-blue-500 hover:bg-blue-600 
+           dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-300 shadow-md"
+        >
+          Are you sure you want to log out?
         </button>
       )}
       {error && <p className="text-red-500">{error}</p>}{" "}

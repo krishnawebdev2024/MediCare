@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useDoctorContext } from "../contexts/doctorContext"; // Import the useAuthContext hook
+import { useDoctorContext } from "../contexts/doctorContext";
 
 const DoctorLoginPage = () => {
   const [formData, setFormData] = useState({
@@ -37,7 +37,7 @@ const DoctorLoginPage = () => {
         setSuccess("Login successful!");
         setError(null);
         console.log("Navigating to doctor dashboard...");
-        navigate("/doctordashboard"); // Navigate after successful login
+        navigate("/doctordashboard");
       }
     } catch (error) {
       setError(contextError || "Login failed. Please try again.");
