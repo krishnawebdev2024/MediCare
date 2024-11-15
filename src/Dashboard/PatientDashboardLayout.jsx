@@ -11,9 +11,9 @@ import {
   FiUsers,
 } from "react-icons/fi";
 import { motion } from "framer-motion";
-import Appointments from "../1-AdminDashComponents/Appointments";
+import Appointments from "../A-AdminDashComponents/Appointments";
 
-import Logout from "../AccountCreate/Logout";
+import Logout from "../01-UserAccountCreate/Logout";
 
 const PatientDashboardLayout = () => {
   return (

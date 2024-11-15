@@ -137,7 +137,7 @@ const Navbar = () => {
           </button>
           {!isAuthenticated && (
             <Link
-              to="/createAccount"
+              to="/patient-register"
               className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
             >
               Patient Sign Up

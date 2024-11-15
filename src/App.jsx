@@ -5,6 +5,8 @@ import ScrollToTop from "./AnimeComponents/ScrollToTop/ScrollToTop";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from "./contexts/index";
+import { AdminProvider } from "./contexts/index";
+import { DoctorProvider } from "./contexts/index";
 
 import NavBar from "./PageComponents/Navbar/NavBar";
 import Home from "./PageComponents/Home/Home";
@@ -17,8 +19,14 @@ import AdminDashboardLayout from "./Dashboard/AdminDashboardLayout";
 import DoctorDashboardLayout from "./Dashboard/DoctorDashboardLayout";
 import PatientDashboardLayout from "./Dashboard/PatientDashboardLayout";
 
-import Form from "./AccountCreate/Form";
-import LoginPage from "./AccountCreate/LoginPage";
+import Form from "./01-UserAccountCreate/Form";
+import LoginPage from "./01-UserAccountCreate/LoginPage";
+
+import AdminLoginPage from "./02-AdminAccountCreate/AdminLoginPage";
+import AdminRegisterForm from "./02-AdminAccountCreate/AdminRegisterForm";
+
+import DoctorRegisterForm from "./03-DoctorAccountCreate/DoctorRegisterForm";
+import DoctorLoginPage from "./03-DoctorAccountCreate/DoctorLoginPage";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -44,38 +52,51 @@ export default function App() {
       <AnimatePresence mode="wait">
         {isLoading && <Preloader />}
       </AnimatePresence>
-      {/* Wrap the entire app with AuthProvider to make authentication state available globally */}
+      {/* Provider to make authentication state available globally */}
       <AuthProvider>
-        <Router
-          future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-        >
-          <ScrollToTop />
-          <NavBar />
+        <AdminProvider>
+          <DoctorProvider>
+            <Router
+              future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
+            >
+              <ScrollToTop />
+              <NavBar />
 
-          <Routes>
-            <Route exact path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/contact" element={<Contact />} />
-            {/* Signup and Login routes */}
-            <Route path="/createAccount" element={<Form />} />
-            <Route path="/patient-login" element={<LoginPage />} />
-            {/*  <Route path="/login" element={<Form type="login" />} /> */}
+              <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/contact" element={<Contact />} />
+                {/* Sign-up and Login routes for patients */}
+                <Route path="/patient-register" element={<Form />} />
+                <Route path="/admin-register" element={<AdminRegisterForm />} />
+                <Route
+                  path="/doctor-register"
+                  element={<DoctorRegisterForm />}
+                />
+                <Route path="/patient-login" element={<LoginPage />} />
+                <Route path="/admin-login" element={<AdminLoginPage />} />
+                <Route path="/doctor-login" element={<DoctorLoginPage />} />
 
-            {/* Nested routes  */}
-            <Route path="admindashboard/*" element={<AdminDashboardLayout />} />
-            <Route
-              path="doctordashboard/*"
-              element={<DoctorDashboardLayout />}
-            />
-            <Route
-              path="patientdashboard/*"
-              element={<PatientDashboardLayout />}
-            />
-          </Routes>
+                {/* Nested routes  */}
+                <Route
+                  path="admindashboard/*"
+                  element={<AdminDashboardLayout />}
+                />
+                <Route
+                  path="doctordashboard/*"
+                  element={<DoctorDashboardLayout />}
+                />
+                <Route
+                  path="patientdashboard/*"
+                  element={<PatientDashboardLayout />}
+                />
+              </Routes>
 
-          <FooterLatest />
-        </Router>
+              <FooterLatest />
+            </Router>
+          </DoctorProvider>
+        </AdminProvider>
       </AuthProvider>
     </>
   );

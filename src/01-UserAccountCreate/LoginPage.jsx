@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuthContext } from "../contexts/userContext"; // Import the useAuthContext hook
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +10,9 @@ const LoginPage = () => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const navigate = useNavigate();
+
+  // Use the context's login function
+  const { login, error: contextError, loading, user } = useAuthContext();
 
   // Handle input field changes
   const handleChange = (e) => {
@@ -26,19 +29,18 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/users/login",
-        formData,
-        { withCredentials: true }
-      );
-      setSuccess("Login successful!");
-      setError(null);
-      // Redirect user after successful login
-      navigate("/Patientdashboard"); // Replace with the route you want to redirect after login
+      // Call the login function from context
+      const loggedInUser = await login(formData.email, formData.password);
+      console.log("Logged-in User:", loggedInUser); // Debugging line to check user
+
+      if (loggedInUser) {
+        setSuccess("Login successful!");
+        setError(null);
+        console.log("Navigating to patient dashboard...");
+        navigate("/patientdashboard"); // Navigate after successful login
+      }
     } catch (error) {
-      setError(
-        error.response?.data?.message || "Login failed. Please try again."
-      );
+      setError(contextError || "Login failed. Please try again.");
       setSuccess(null);
     }
   };
@@ -46,12 +48,29 @@ const LoginPage = () => {
   return (
     <div className="w-screen overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center py-6 px-[80px] mt-[80px]">
       <div className="bg-[#EFC712] dark:bg-slate-600 w-full h-full rounded-3xl overflow-hidden p-8">
+        <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-gray-200">
+          Patient Login
+        </h2>
         <form
           onSubmit={handleSubmit}
           className="max-w-md mx-auto p-4 space-y-4 bg-white shadow-lg rounded-md"
+          aria-live="polite" // Accessibility for live messages
         >
-          {error && <p className="text-red-500">{error}</p>}
-          {success && <p className="text-green-500">{success}</p>}
+          {error && (
+            <div className="text-red-500 font-semibold">
+              <p>{error}</p>
+            </div>
+          )}
+          {success && (
+            <div className="text-green-500 font-semibold">
+              <p>{success}</p>
+            </div>
+          )}
+          {loading && (
+            <div className="text-blue-500 font-semibold">
+              <p>Loading...</p>
+            </div>
+          )}
 
           <div>
             <label className="block text-sm font-medium text-gray-700">
@@ -83,11 +102,23 @@ const LoginPage = () => {
 
           <button
             type="submit"
-            className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            className="w-full btn btn-primary mt-4"
+            disabled={loading}
           >
-            Log In
+            {loading ? "Logging in..." : "Login"}
           </button>
 
+          <div className="mt-4 text-center">
+            <span className="text-sm text-gray-500">
+              Don't have an account?
+            </span>
+            <Link
+              to="/patient-register"
+              className="ml-2 text-blue-500 hover:underline"
+            >
+              Register
+            </Link>
+          </div>
           {/* Added links for Doctor and Admin login */}
 
           <div className="mt-4 flex flex-row justify-between items-center space-x-6">
