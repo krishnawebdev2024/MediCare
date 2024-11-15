@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuthContext } from "../contexts/userContext"; // Import the useAuthContext hook
+import { useDoctorContext } from "../contexts/doctorContext"; // Import the useAuthContext hook
 
-const LoginPage = () => {
+const DoctorLoginPage = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -12,7 +12,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   // Use the context's login function
-  const { login, error: contextError, loading, user } = useAuthContext();
+  const { login, error: contextError, loading, user } = useDoctorContext();
 
   // Handle input field changes
   const handleChange = (e) => {
@@ -36,8 +36,8 @@ const LoginPage = () => {
       if (loggedInUser) {
         setSuccess("Login successful!");
         setError(null);
-        console.log("Navigating to patient dashboard...");
-        navigate("/patientdashboard"); // Navigate after successful login
+        console.log("Navigating to doctor dashboard...");
+        navigate("/doctordashboard"); // Navigate after successful login
       }
     } catch (error) {
       setError(contextError || "Login failed. Please try again.");
@@ -48,6 +48,9 @@ const LoginPage = () => {
   return (
     <div className="w-screen overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center py-6 px-[80px] mt-[80px]">
       <div className="bg-[#EFC712] dark:bg-slate-600 w-full h-full rounded-3xl overflow-hidden p-8">
+        <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-gray-200">
+          Doctor Login
+        </h2>
         <form
           onSubmit={handleSubmit}
           className="max-w-md mx-auto p-4 space-y-4 bg-white shadow-lg rounded-md"
@@ -110,17 +113,16 @@ const LoginPage = () => {
               Don't have an account?
             </span>
             <Link
-              to="/createAccount"
+              to="/doctor-register"
               className="ml-2 text-blue-500 hover:underline"
             >
               Register
             </Link>
           </div>
-          {/* Added links for Doctor and Admin login */}
 
           <div className="mt-4 flex flex-row justify-between items-center space-x-6">
-            <Link to="/doctor-login" className="text-blue-600 hover:underline">
-              Login as Doctor
+            <Link to="/patient-login" className="text-blue-600 hover:underline">
+              Login as Patient
             </Link>
             <Link to="/admin-login" className="text-blue-600 hover:underline">
               Login as Admin
@@ -132,4 +134,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default DoctorLoginPage;

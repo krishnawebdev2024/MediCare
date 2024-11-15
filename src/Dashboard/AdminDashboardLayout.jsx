@@ -11,7 +11,10 @@ import {
   FiUsers,
 } from "react-icons/fi";
 import { motion } from "framer-motion";
-import Appointments from "../1-AdminDashComponents/Appointments";
+
+import LogoutAdmin from "../02-AdminAccountCreate/LogoutAdmin";
+
+import Appointments from "../A-AdminDashComponents/Appointments";
 
 const AdminDashboardLayout = () => {
   return (
@@ -104,6 +107,10 @@ const Sidebar = () => {
           open={open}
           to="members"
         />
+      </div>
+
+      <div className="mt-5">
+        <LogoutAdmin />
       </div>
 
       <ToggleClose open={open} setOpen={setOpen} />
