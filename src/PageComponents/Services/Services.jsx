@@ -120,7 +120,7 @@ const Services = () => {
             services, from specialist access to telemedicine, are designed to
             fit seamlessly into your life.
           </p>
-          <Link to="/createAccount">
+          <Link to="/patient-register">
             <motion.button
               style={{
                 border,
