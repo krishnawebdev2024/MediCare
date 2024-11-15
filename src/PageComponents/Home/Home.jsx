@@ -25,7 +25,7 @@ const Home = () => {
               <h1 className="text-6xl font-semibold mb-4">
                 Your modern medical practice
               </h1>
-              <Link to="/createAccount">
+              <Link to="/patient-register">
                 <button className="mt-4 px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-blue-500 dark:hover:bg-blue-600">
                   Book an Appointment
                 </button>
