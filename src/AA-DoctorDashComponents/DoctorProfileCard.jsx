@@ -1,8 +1,9 @@
 import React from "react";
+
 import { useDoctorContext } from "../contexts/doctorContext";
 
 const DoctorProfileCard = () => {
-  const { doctor, loading, error } = useDoctorContext();
+  const { doctor, loading, error, checkSession } = useDoctorContext();
 
   if (loading) {
     return <h1 className="text-center text-xl">Loading...</h1>;

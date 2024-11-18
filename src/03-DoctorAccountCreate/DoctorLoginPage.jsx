@@ -31,12 +31,11 @@ const DoctorLoginPage = () => {
     try {
       // Call the login function from context
       const loggedInUser = await login(formData.email, formData.password);
-      console.log("Logged-in User:", loggedInUser); // Debugging line to check user
 
       if (loggedInUser) {
         setSuccess("Login successful!");
         setError(null);
-        console.log("Navigating to doctor dashboard...");
+
         navigate("/doctordashboard");
       }
     } catch (error) {

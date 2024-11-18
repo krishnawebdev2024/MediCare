@@ -1,29 +1,10 @@
 import React, { useState } from "react";
 import DoctorProfileCard from "../AA-DoctorDashComponents/DoctorProfileCard";
+import CreateAvailability from "../AA-DoctorDashComponents/CreateAvailability";
+import GetAvailability from "../AA-DoctorDashComponents/GetAvailability"; // Import GetAvailability
+import UpdateAvailability from "../AA-DoctorDashComponents/UpdateAvailability";
+import DeleteAvailability from "../AA-DoctorDashComponents/DeleteAvailability";
 import LogoutDoctor from "../03-DoctorAccountCreate/LogoutDoctor";
-
-// Components for each section
-const Analytics = () => (
-  <div className="p-6 bg-white dark:bg-gray-800 shadow-md rounded-md">
-    <h1 className="text-xl font-bold mb-4 text-black dark:text-white">
-      Analytics
-    </h1>
-    <p className="text-gray-700 dark:text-gray-300">
-      Analytics and performance data go here.
-    </p>
-  </div>
-);
-
-const Settings = () => (
-  <div className="p-6 bg-white dark:bg-gray-800 shadow-md rounded-md">
-    <h1 className="text-xl font-bold mb-4 text-black dark:text-white">
-      Settings
-    </h1>
-    <p className="text-gray-700 dark:text-gray-300">
-      Settings and preferences go here.
-    </p>
-  </div>
-);
 
 // Main Dashboard Layout
 const DoctorDashboardLayout = () => {
@@ -34,10 +15,15 @@ const DoctorDashboardLayout = () => {
     switch (activeComponent) {
       case "profile":
         return <DoctorProfileCard />;
-      case "analytics":
-        return <Analytics />;
-      case "settings":
-        return <Settings />;
+      case "createAvailability":
+        return <CreateAvailability />;
+      case "getAvailability": // Add this case for GetAvailability
+        return <GetAvailability />;
+      case "updateAvailability": // Add this case for UpdateAvailability
+        return <UpdateAvailability />;
+      case "deleteAvailability": // Add this case for DeleteAvailability
+        return <DeleteAvailability />;
+
       case "logout":
         return <LogoutDoctor />;
       default:
@@ -46,7 +32,7 @@ const DoctorDashboardLayout = () => {
   };
 
   return (
-    <div className="flex h-screen mt-[80px] dark:bg-gray-900">
+    <div className="flex min-h-screen mt-[80px] dark:bg-gray-900">
       {/* Sidebar */}
       <div className="bg-gray-800 text-white w-64 p-4 dark:bg-gray-700">
         <h2 className="text-2xl font-bold mb-6 text-white">Doctor Dashboard</h2>
@@ -61,25 +47,52 @@ const DoctorDashboardLayout = () => {
           >
             Profile
           </button>
+
+          {/* Create Availability Button */}
           <button
             className={`w-full text-left p-3 rounded-md ${
-              activeComponent === "analytics"
+              activeComponent === "createAvailability"
                 ? "bg-gray-600"
                 : "hover:bg-gray-700"
             }`}
-            onClick={() => setActiveComponent("analytics")}
+            onClick={() => setActiveComponent("createAvailability")}
           >
-            Analytics
+            Add Availability
           </button>
+
+          {/* Get Availability Button */}
           <button
             className={`w-full text-left p-3 rounded-md ${
-              activeComponent === "settings"
+              activeComponent === "getAvailability"
                 ? "bg-gray-600"
                 : "hover:bg-gray-700"
             }`}
-            onClick={() => setActiveComponent("settings")}
+            onClick={() => setActiveComponent("getAvailability")} // Switch to GetAvailability
           >
-            Settings
+            View Availability
+          </button>
+          {/* Update Availability Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "updateAvailability"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("updateAvailability")} // Switch to UpdateAvailability
+          >
+            Edit Availability
+          </button>
+
+          {/* Delete Availability Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "deleteAvailability"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("deleteAvailability")} // Switch to DeleteAvailability
+          >
+            Delete Availability
           </button>
 
           {/* Logout Button */}
