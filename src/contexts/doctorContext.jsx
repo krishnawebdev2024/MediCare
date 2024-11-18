@@ -29,8 +29,13 @@ export const DoctorProvider = ({ children }) => {
       );
 
       if (response.data && response.data.doctor) {
-        dispatch({ type: "LOGIN", payload: response.data.doctor });
-        return response.data.doctor;
+        const doctorData = response.data.doctor;
+
+        // Save the doctor data to local storage
+        localStorage.setItem("loggedInDoctor", JSON.stringify(doctorData));
+
+        dispatch({ type: "LOGIN", payload: doctorData });
+        return doctorData;
       } else {
         throw new Error("Invalid credentials");
       }
@@ -52,6 +57,10 @@ export const DoctorProvider = ({ children }) => {
         {},
         { withCredentials: true }
       );
+
+      // Remove the doctor data from local storage
+      localStorage.removeItem("loggedInDoctor");
+
       dispatch({ type: "LOGOUT" });
     } catch (err) {
       dispatch({ type: "SET_ERROR", payload: "Logout failed" });
@@ -71,13 +80,20 @@ export const DoctorProvider = ({ children }) => {
         dispatch({ type: "LOGOUT" });
       }
     } catch (err) {
+      console.error("Error checking session:", err); // Log the error for debugging
       dispatch({ type: "LOGOUT" });
     }
   };
 
-  // Check session on mount
+  // Check session on mount and read from localStorage if necessary
   useEffect(() => {
-    checkSession();
+    const storedDoctor = localStorage.getItem("loggedInDoctor");
+    if (storedDoctor) {
+      const doctorData = JSON.parse(storedDoctor);
+      dispatch({ type: "SET_DOCTOR", payload: doctorData });
+    } else {
+      checkSession();
+    }
   }, []);
 
   return (
@@ -88,3 +104,8 @@ export const DoctorProvider = ({ children }) => {
 };
 
 export const useDoctorContext = () => useContext(DoctorContext);
+
+// Check session on mount
+/*  useEffect(() => {
+    checkSession();
+  }, []); */
