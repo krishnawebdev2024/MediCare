@@ -10,7 +10,7 @@ const CreateAvailability = () => {
   const [slots, setSlots] = useState([{ startTime: "", endTime: "" }]);
   const [slotError, setSlotError] = useState("");
 
-  const doctorId = doctor?.id;
+  const doctorId = doctor?._id;
 
   // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split("T")[0];
@@ -97,9 +97,13 @@ const CreateAvailability = () => {
         Create New Availability
       </h2>
 
-      {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+      {error && (
+        <p className="text-red-500 hover:text-red-600 text-center mt-4">
+          {error}
+        </p>
+      )}
       {success && (
-        <p className="text-green-500 text-center mt-4">
+        <p className="text-green-500 hover:text-green-600 text-center mt-4">
           Availability created successfully!
         </p>
       )}

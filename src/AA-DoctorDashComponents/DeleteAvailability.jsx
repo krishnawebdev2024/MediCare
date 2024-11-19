@@ -12,7 +12,7 @@ const DeleteAvailability = () => {
     error,
   } = useAvailability();
 
-  const doctorId = doctor?.id;
+  const doctorId = doctor?._id;
 
   // Fetch availabilities when the component mounts
   useEffect(() => {
