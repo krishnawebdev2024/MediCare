@@ -7,7 +7,7 @@ const GetAvailability = () => {
   const { availabilities, loading, error, fetchAvailabilities } =
     useAvailability();
 
-  const doctorId = doctor?.id; // Ensure doctor ID is available
+  const doctorId = doctor?._id; // Ensure doctor ID is available
 
   useEffect(() => {
     // Fetch availabilities only when doctorId is defined

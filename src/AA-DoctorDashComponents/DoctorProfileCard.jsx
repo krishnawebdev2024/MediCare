@@ -33,7 +33,7 @@ const DoctorProfileCard = () => {
             {doctor.name}
           </h2>
           <p className="text-sm text-gray-600">{doctor.role}</p>
-          <p className="mt-2 text-gray-500">ID: {doctor.id}</p>
+          <p className="mt-2 text-gray-500">ID: {doctor._id}</p>
           <p className="mt-1 text-gray-500">Email: {doctor.email}</p>
         </div>
       </div>
