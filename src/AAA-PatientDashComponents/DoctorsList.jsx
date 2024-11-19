@@ -13,6 +13,7 @@ const DoctorsList = () => {
         const response = await fetch("http://localhost:3000/api/v1/doctors");
         const data = await response.json();
         setDoctors(data);
+        console.log(data);
       } catch (err) {
         setError("Failed to fetch doctors");
       } finally {
@@ -30,6 +31,7 @@ const DoctorsList = () => {
         `http://localhost:3000/api/v1/doctorAvailability/${doctorId}`
       );
       setAvailability(response.data); // Store the availability data in the state
+      console.log(response.data);
     } catch (err) {
       console.error("Error fetching availability:", err);
     }
