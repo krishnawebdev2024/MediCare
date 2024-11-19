@@ -30,18 +30,21 @@ export const AuthProvider = ({ children }) => {
 
       // Ensure response contains a user
       if (response.data && response.data.user) {
+        const userData = response.data.user;
+        // Save the user data to local storage
+        localStorage.setItem("loggedInUser", JSON.stringify(userData));
         // Dispatch login action only if user exists
-        dispatch({ type: "LOGIN", payload: response.data.user });
-        return response.data.user; // Return the user object to confirm login
+        dispatch({ type: "LOGIN", payload: userData });
+        return userData;
       } else {
-        throw new Error("Invalid credentials"); // Throw error if user data is missing
+        throw new Error("Invalid credentials");
       }
     } catch (err) {
       dispatch({
         type: "SET_ERROR",
         payload: err.response?.data?.message || "Login failed",
       });
-      throw err; // Rethrow the error to handle it in the component
+      throw err;
     }
   };
 
@@ -54,6 +57,9 @@ export const AuthProvider = ({ children }) => {
         {},
         { withCredentials: true }
       );
+      // Remove the user data from local storage
+      localStorage.removeItem("loggedInUser");
+
       dispatch({ type: "LOGOUT" });
     } catch (err) {
       dispatch({ type: "SET_ERROR", payload: "Logout failed" });

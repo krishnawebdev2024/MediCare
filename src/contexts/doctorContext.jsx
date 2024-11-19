@@ -30,7 +30,7 @@ export const DoctorProvider = ({ children }) => {
 
       if (response.data && response.data.doctor) {
         const doctorData = response.data.doctor;
-
+        console.log("doctorData", doctorData);
         // Save the doctor data to local storage
         localStorage.setItem("loggedInDoctor", JSON.stringify(doctorData));
 
@@ -74,6 +74,7 @@ export const DoctorProvider = ({ children }) => {
       const response = await axios.get(`${URL}/api/v1/doctors/session`, {
         withCredentials: true,
       });
+      console.log(response.data);
       if (response.data.authenticated) {
         dispatch({ type: "SET_DOCTOR", payload: response.data.doctor });
       } else {
@@ -86,7 +87,7 @@ export const DoctorProvider = ({ children }) => {
   };
 
   // Check session on mount and read from localStorage if necessary
-  useEffect(() => {
+  /* useEffect(() => {
     const storedDoctor = localStorage.getItem("loggedInDoctor");
     if (storedDoctor) {
       const doctorData = JSON.parse(storedDoctor);
@@ -94,6 +95,11 @@ export const DoctorProvider = ({ children }) => {
     } else {
       checkSession();
     }
+  }, []); */
+
+  // Check session on mount
+  useEffect(() => {
+    checkSession();
   }, []);
 
   return (
@@ -104,8 +110,3 @@ export const DoctorProvider = ({ children }) => {
 };
 
 export const useDoctorContext = () => useContext(DoctorContext);
-
-// Check session on mount
-/*  useEffect(() => {
-    checkSession();
-  }, []); */

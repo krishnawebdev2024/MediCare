@@ -8,6 +8,7 @@ const Logout = () => {
   const handleLogout = async () => {
     try {
       await logout(); // Calls the logout function from context
+
       navigate("/patient-login"); // Redirect to login page after successful logout
     } catch (error) {
       console.error("Logout failed:", error);
