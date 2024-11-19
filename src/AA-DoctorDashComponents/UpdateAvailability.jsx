@@ -12,7 +12,7 @@ const UpdateAvailability = () => {
     updateAvailability,
   } = useAvailability();
 
-  const doctorId = doctor?.id;
+  const doctorId = doctor?._id;
 
   const [editingSlot, setEditingSlot] = useState(null);
   const [updatedSlot, setUpdatedSlot] = useState({});
@@ -60,7 +60,7 @@ const UpdateAvailability = () => {
       await updateAvailability(availabilityId, updatedData);
 
       // Refresh the availabilities and reset editing state
-      //fetchAvailabilities(doctorId);
+      fetchAvailabilities(doctorId);
       setEditingSlot(null);
       setUpdatedSlot({});
     } catch (err) {

@@ -6,6 +6,7 @@ import UpdateAvailability from "../AA-DoctorDashComponents/UpdateAvailability";
 import DeleteAvailability from "../AA-DoctorDashComponents/DeleteAvailability"; */
 import PatientProfileCard from "../AAA-PatientDashComponents/PatientProfileCard";
 import DoctorsList from "../AAA-PatientDashComponents/DoctorsList";
+import AppointmentBooking from "../AAA-PatientDashComponents/AppointmentBooking";
 
 import Logout from "../01-UserAccountCreate/Logout";
 
@@ -20,6 +21,10 @@ const PatientDashboardLayout = () => {
         return <PatientProfileCard />;
       case "doctors":
         return <DoctorsList />;
+      case "appointmentBooking":
+        return <AppointmentBooking />;
+
+      /* Add more cases for other components */
 
       /*      case "createAvailability":
         return <CreateAvailability />;
@@ -66,6 +71,18 @@ const PatientDashboardLayout = () => {
             onClick={() => setActiveComponent("doctors")}
           >
             View Available Doctors
+          </button>
+
+          {/* Appointment Booking */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "appointmentBooking"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("appointmentBooking")}
+          >
+            Book Appointment
           </button>
 
           {/* Logout Button */}

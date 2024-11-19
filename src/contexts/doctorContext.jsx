@@ -86,17 +86,6 @@ export const DoctorProvider = ({ children }) => {
     }
   };
 
-  // Check session on mount and read from localStorage if necessary
-  /* useEffect(() => {
-    const storedDoctor = localStorage.getItem("loggedInDoctor");
-    if (storedDoctor) {
-      const doctorData = JSON.parse(storedDoctor);
-      dispatch({ type: "SET_DOCTOR", payload: doctorData });
-    } else {
-      checkSession();
-    }
-  }, []); */
-
   // Check session on mount
   useEffect(() => {
     checkSession();
@@ -110,3 +99,14 @@ export const DoctorProvider = ({ children }) => {
 };
 
 export const useDoctorContext = () => useContext(DoctorContext);
+
+// Check session on mount and read from localStorage if necessary
+/* useEffect(() => {
+    const storedDoctor = localStorage.getItem("loggedInDoctor");
+    if (storedDoctor) {
+      const doctorData = JSON.parse(storedDoctor);
+      dispatch({ type: "SET_DOCTOR", payload: doctorData });
+    } else {
+      checkSession();
+    }
+  }, []); */

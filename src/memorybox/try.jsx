@@ -75,12 +75,7 @@ const AppointmentBooking = () => {
 
   // Handle slot selection
   const handleSlotSelect = (slot) => {
-    if (slot.isBooked) {
-      // Prevent selection if the slot is booked
-      alert("This slot is already booked. Please select another slot.");
-      return; // Prevent setting the selectedSlot
-    }
-    setSelectedSlot(slot); // Allow selection if the slot is available
+    setSelectedSlot(slot);
     console.log("Selected slot:", slot);
   };
 
@@ -178,9 +173,7 @@ const AppointmentBooking = () => {
               <div
                 key={slot._id}
                 onClick={() => handleSlotSelect(slot)}
-                className={`bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded-lg shadow-md cursor-pointer transition duration-300 ${
-                  slot.isBooked ? "opacity-50 cursor-not-allowed" : ""
-                }`}
+                className="bg-gray-700 hover:bg-gray-600 text-white py-3 px-6 rounded-lg shadow-md cursor-pointer transition duration-300"
               >
                 <p className="text-lg font-semibold">
                   {slot.startTime} - {slot.endTime}

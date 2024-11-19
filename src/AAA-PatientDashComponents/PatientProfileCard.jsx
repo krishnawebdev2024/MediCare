@@ -30,7 +30,7 @@ const PatientProfileCard = () => {
         <div className="p-6">
           <h2 className="text-2xl font-semibold text-gray-800">{user.name}</h2>
           <p className="text-sm text-gray-600">{user.role}</p>
-          <p className="mt-2 text-gray-500">ID: {user.id}</p>
+          <p className="mt-2 text-gray-500">ID: {user._id}</p>
           <p className="mt-1 text-gray-500">Email: {user.email}</p>
         </div>
       </div>

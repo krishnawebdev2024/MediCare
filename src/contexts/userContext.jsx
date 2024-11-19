@@ -73,8 +73,10 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.get(`${URL}/api/v1/users/session`, {
         withCredentials: true,
       });
+      console.log(response.data);
       if (response.data.authenticated) {
         dispatch({ type: "SET_USER", payload: response.data.user });
+        console.log("Authenticated user is this person:", response.data.user);
       } else {
         dispatch({ type: "LOGOUT" });
       }
@@ -86,6 +88,7 @@ export const AuthProvider = ({ children }) => {
   // Check session on mount
   useEffect(() => {
     checkSession();
+    console.log("Mounted");
   }, []);
 
   return (
