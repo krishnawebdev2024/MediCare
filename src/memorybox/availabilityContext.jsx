@@ -37,34 +37,14 @@ const availabilityReducer = (state, action) => {
         loading: false,
       };
 
-    // case "UPDATE_AVAILABILITY":
-    //   return {
-    //     ...state,
-    //     availabilities: state.availabilities.map((availability) =>
-    //       availability._id === action.payload._id
-    //         ? { ...availability, availability: action.payload.availability }
-    //         : availability
-    //     ),
-    //     loading: false,
-    //   };
-
     case "UPDATE_AVAILABILITY":
       return {
         ...state,
-        availabilities: state.availabilities.map((availability) => {
-          // Ensure availability and availability._id exist before comparison
-          if (
-            availability &&
-            availability._id &&
-            action.payload &&
-            action.payload._id
-          ) {
-            return availability._id === action.payload._id
-              ? { ...availability, availability: action.payload.availability }
-              : availability;
-          }
-          return availability; // Return the availability unchanged if the check fails
-        }),
+        availabilities: state.availabilities.map((availability) =>
+          availability._id === action.payload._id
+            ? { ...availability, ...action.payload }
+            : availability
+        ),
         loading: false,
       };
 
