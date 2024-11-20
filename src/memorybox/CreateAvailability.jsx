@@ -91,7 +91,7 @@ const CreateAvailability = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-xl">
-      <p className="mt-2 text-gray-500">Doctor ID: {doctor?._id}</p>
+      <p className="mt-2 text-gray-500">Doctor ID: {doctor?.id}</p>
 
       <h2 className="text-3xl font-semibold text-center text-gray-800">
         Create New Availability
