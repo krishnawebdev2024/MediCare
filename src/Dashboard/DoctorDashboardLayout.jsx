@@ -4,6 +4,7 @@ import CreateAvailability from "../AA-DoctorDashComponents/CreateAvailability";
 import GetAvailability from "../AA-DoctorDashComponents/GetAvailability"; // Import GetAvailability
 import UpdateAvailability from "../AA-DoctorDashComponents/UpdateAvailability";
 import DeleteAvailability from "../AA-DoctorDashComponents/DeleteAvailability";
+import DeleteSlots from "../AA-DoctorDashComponents/DeleteSlots";
 import LogoutDoctor from "../03-DoctorAccountCreate/LogoutDoctor";
 
 // Main Dashboard Layout
@@ -24,6 +25,10 @@ const DoctorDashboardLayout = () => {
       case "deleteAvailability": // Add this case for DeleteAvailability
         return <DeleteAvailability />;
 
+      case "deleteSlots": // Add this case for DeleteSlots
+        return <DeleteSlots />;
+
+      case "logout":
       case "logout":
         return <LogoutDoctor />;
       default:
@@ -93,6 +98,17 @@ const DoctorDashboardLayout = () => {
             onClick={() => setActiveComponent("deleteAvailability")} // Switch to DeleteAvailability
           >
             Delete Availability
+          </button>
+          {/* Delete Slots Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "deleteSlots"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("deleteSlots")} // Switch to DeleteSlots
+          >
+            Delete Slots
           </button>
 
           {/* Logout Button */}

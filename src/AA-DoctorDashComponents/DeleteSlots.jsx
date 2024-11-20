@@ -2,60 +2,60 @@ import React, { useEffect, useState } from "react";
 import { useAvailability } from "../doctorContextsAndReducers/availabilityContext";
 import { useDoctorContext } from "../contexts/doctorContext";
 
-const DeleteAvailability = () => {
+const DeleteSlot = () => {
   const { doctor } = useDoctorContext();
   const {
     availabilities,
     fetchAvailabilities,
-    deleteAvailability,
+    deleteSlot, // Function to handle single slot deletion
     loading,
     error,
   } = useAvailability();
 
   const doctorId = doctor?._id;
 
-  // State to manage modal visibility and selected availability ID
-  const [showModal, setShowModal] = useState(false);
-  const [selectedAvailabilityId, setSelectedAvailabilityId] = useState(null);
+  // State to manage modal visibility and slot ID
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState(null);
 
   // Fetch availabilities when the component mounts
   useEffect(() => {
     if (doctorId) {
       fetchAvailabilities(doctorId);
     }
-  }, []);
+  }, [doctorId]);
 
-  // Handle Delete
-  const handleDelete = () => {
-    if (selectedAvailabilityId) {
-      deleteAvailability(selectedAvailabilityId)
+  // Handle Delete Slot
+  const handleDeleteSlot = (availabilityId, slotId) => {
+    setSelectedSlot({ availabilityId, slotId });
+    setIsModalOpen(true); // Show the modal when delete is clicked
+  };
+
+  // Confirm delete action
+  const confirmDelete = () => {
+    if (selectedSlot) {
+      const { availabilityId, slotId } = selectedSlot;
+      deleteSlot(availabilityId, slotId)
         .then(() => {
-          fetchAvailabilities(doctorId); // Re-fetch availabilities after deletion
-          setShowModal(false); // Close the modal after deletion
+          // After deleting the slot, re-fetch the updated availabilities
+          fetchAvailabilities(doctorId);
+          setIsModalOpen(false); // Close the modal after deletion
         })
         .catch((err) => {
-          console.error("Error deleting availability:", err);
-          setShowModal(false); // Close the modal on error
+          // Handle any errors that occur during deletion
+          console.error("Error deleting slot:", err);
         });
     }
   };
 
-  // Show Modal when a delete button is clicked
-  const handleDeleteClick = (availabilityId) => {
-    setSelectedAvailabilityId(availabilityId);
-    setShowModal(true);
-  };
-
-  // Close the modal without deleting
-  const handleCloseModal = () => {
-    setShowModal(false);
+  // Cancel delete action
+  const cancelDelete = () => {
+    setIsModalOpen(false); // Close the modal without deleting
   };
 
   return (
     <div className="p-4">
-      <h2 className="text-lg font-bold mb-4 dark:text-white">
-        Delete Availability
-      </h2>
+      <h2 className="text-lg font-bold mb-4 dark:text-white">Delete Slot</h2>
 
       {/* Show Loading or Error */}
       {loading && <p>Loading...</p>}
@@ -83,11 +83,11 @@ const DeleteAvailability = () => {
                   <li
                     key={slot._id}
                     className={`p-4 rounded-lg shadow-md flex justify-between items-center 
-      ${
-        slot.isBooked
-          ? "bg-red-100 border-l-4 border-red-500"
-          : "bg-green-100 border-l-4 border-green-500"
-      }`}
+                      ${
+                        slot.isBooked
+                          ? "bg-red-100 border-l-4 border-red-500"
+                          : "bg-green-100 border-l-4 border-green-500"
+                      }`}
                   >
                     <div>
                       <p className="font-semibold text-gray-800">
@@ -101,7 +101,7 @@ const DeleteAvailability = () => {
                         {slot.isBooked ? "Booked" : "Available to be Booked"}
                       </p>
                     </div>
-                    <div>
+                    <div className="flex items-center gap-4">
                       <span
                         className={`px-3 py-1 rounded-full text-sm ${
                           slot.isBooked
@@ -111,17 +111,24 @@ const DeleteAvailability = () => {
                       >
                         {slot.isBooked ? "Reserved" : "Free"}
                       </span>
+                      <button
+                        onClick={() =>
+                          handleDeleteSlot(availability._id, slot._id)
+                        }
+                        disabled={slot.isBooked} // Disable button if slot is booked
+                        className={`px-4 py-2 rounded ${
+                          slot.isBooked
+                            ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                            : "bg-red-500 text-white hover:bg-red-600"
+                        }`}
+                      >
+                        Delete Slot
+                      </button>
                     </div>
                   </li>
                 ))}
               </ul>
             </div>
-            <button
-              onClick={() => handleDeleteClick(availability._id)}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 self-end"
-            >
-              Delete Availability
-            </button>
           </li>
         ))}
       </ul>
@@ -133,25 +140,24 @@ const DeleteAvailability = () => {
         </p>
       )}
 
-      {/* Modal for confirmation */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 className="text-lg font-semibold mb-4">
-              Are you sure you want to delete this availability?
-            </h3>
+      {/* Modal for confirming delete */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+            <h3 className="text-lg font-semibold mb-4">Are you sure?</h3>
+            <p className="mb-4">Do you really want to delete this slot?</p>
             <div className="flex justify-end gap-4">
               <button
-                onClick={handleCloseModal}
-                className="px-4 py-2 bg-gray-300 text-black rounded"
+                onClick={cancelDelete}
+                className="px-4 py-2 rounded bg-gray-300 text-gray-800 hover:bg-gray-400"
               >
                 Cancel
               </button>
               <button
-                onClick={handleDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded"
+                onClick={confirmDelete}
+                className="px-4 py-2 rounded bg-red-500 text-white hover:bg-red-600"
               >
-                Confirm Delete
+                Confirm
               </button>
             </div>
           </div>
@@ -161,4 +167,4 @@ const DeleteAvailability = () => {
   );
 };
 
-export default DeleteAvailability;
+export default DeleteSlot;

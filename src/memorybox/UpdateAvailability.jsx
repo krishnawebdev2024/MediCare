@@ -38,33 +38,13 @@ const UpdateAvailability = () => {
 
   // Handle saving updated slot
   const handleSave = async () => {
-    if (!availabilities || !availabilities.length) {
-      console.error("Availabilities are not loaded.");
-      return;
-    }
-
     const { availabilityId, slotId } = editingSlot;
-
-    // Find the availability entry for the given availabilityId
-    const availabilityItem = availabilities.find(
-      (av) => av._id === availabilityId
-    );
-
-    if (
-      !availabilityItem ||
-      !availabilityItem.availability ||
-      !availabilityItem.availability[0]
-    ) {
-      console.error("Availability or slots not found.");
-      return;
-    }
-
-    // Proceed with creating the updated data if availabilityItem exists
     const updatedData = {
       doctorId,
       availability: [
         {
-          date: availabilityItem.availability[0]?.date,
+          date: availabilities.find((av) => av._id === availabilityId)
+            ?.availability[0]?.date,
           slots: [
             {
               _id: slotId,
