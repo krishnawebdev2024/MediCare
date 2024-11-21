@@ -137,7 +137,8 @@ import { AuthProvider } from "./contexts/index";
 import { AdminProvider } from "./contexts/index";
 import { DoctorProvider } from "./contexts/index";
 
-import AvailabilityProvider from "./doctorContextsAndReducers/availabilityContext";
+import AvailabilityProvider from "./doctorContextsAndBookingContexts/availabilityContext";
+import BookingProvider from "./doctorContextsAndBookingContexts/BookingContext";
 
 import NavBar from "./PageComponents/Navbar/NavBar";
 import Home from "./PageComponents/Home/Home";
@@ -197,51 +198,53 @@ export default function App() {
         <AdminProvider>
           <DoctorProvider>
             <AvailabilityProvider>
-              <Router
-                future={{
-                  v7_startTransition: true,
-                  v7_relativeSplatPath: true,
-                }}
-              >
-                <ScrollToTop />
-                <NavBar />
+              <BookingProvider>
+                <Router
+                  future={{
+                    v7_startTransition: true,
+                    v7_relativeSplatPath: true,
+                  }}
+                >
+                  <ScrollToTop />
+                  <NavBar />
 
-                <Routes>
-                  <Route exact path="/" element={<Home />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/services" element={<Services />} />
-                  <Route path="/contact" element={<Contact />} />
-                  {/* Sign-up and Login routes for patients */}
-                  <Route path="/patient-register" element={<Form />} />
-                  <Route
-                    path="/admin-register"
-                    element={<AdminRegisterForm />}
-                  />
-                  <Route
-                    path="/doctor-register"
-                    element={<DoctorRegisterForm />}
-                  />
-                  <Route path="/patient-login" element={<LoginPage />} />
-                  <Route path="/admin-login" element={<AdminLoginPage />} />
-                  <Route path="/doctor-login" element={<DoctorLoginPage />} />
+                  <Routes>
+                    <Route exact path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/services" element={<Services />} />
+                    <Route path="/contact" element={<Contact />} />
+                    {/* Sign-up and Login routes for patients */}
+                    <Route path="/patient-register" element={<Form />} />
+                    <Route
+                      path="/admin-register"
+                      element={<AdminRegisterForm />}
+                    />
+                    <Route
+                      path="/doctor-register"
+                      element={<DoctorRegisterForm />}
+                    />
+                    <Route path="/patient-login" element={<LoginPage />} />
+                    <Route path="/admin-login" element={<AdminLoginPage />} />
+                    <Route path="/doctor-login" element={<DoctorLoginPage />} />
 
-                  {/* Nested routes  */}
-                  <Route
-                    path="admindashboard/*"
-                    element={<AdminDashboardLayout />}
-                  />
-                  <Route
-                    path="doctordashboard/*"
-                    element={<DoctorDashboardLayout />}
-                  />
-                  <Route
-                    path="patientdashboard/*"
-                    element={<PatientDashboardLayout />}
-                  />
-                </Routes>
+                    {/* Nested routes  */}
+                    <Route
+                      path="admindashboard/*"
+                      element={<AdminDashboardLayout />}
+                    />
+                    <Route
+                      path="doctordashboard/*"
+                      element={<DoctorDashboardLayout />}
+                    />
+                    <Route
+                      path="patientdashboard/*"
+                      element={<PatientDashboardLayout />}
+                    />
+                  </Routes>
 
-                <FooterLatest />
-              </Router>
+                  <FooterLatest />
+                </Router>
+              </BookingProvider>
             </AvailabilityProvider>
           </DoctorProvider>
         </AdminProvider>

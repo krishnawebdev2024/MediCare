@@ -16,14 +16,14 @@ export const AdminProvider = ({ children }) => {
     initialState
   );
 
-  const URL = "http://localhost:3000";
+  const API_URL = "http://localhost:3000"; // Base URL for API
 
   // Login action for admin
   const login = async (email, password) => {
     dispatch({ type: "SET_LOADING" });
     try {
       const response = await axios.post(
-        `${URL}/api/v1/admins/login`,
+        `${API_URL}/api/v1/admins/login`,
         { email, password },
         { withCredentials: true }
       );
@@ -48,7 +48,7 @@ export const AdminProvider = ({ children }) => {
     dispatch({ type: "SET_LOADING" });
     try {
       await axios.post(
-        `${URL}/api/v1/admins/logout`,
+        `${API_URL}/api/v1/admins/logout`,
         {},
         { withCredentials: true }
       );
@@ -62,7 +62,7 @@ export const AdminProvider = ({ children }) => {
   const checkSession = async () => {
     dispatch({ type: "SET_LOADING" });
     try {
-      const response = await axios.get(`${URL}/api/v1/admins/session`, {
+      const response = await axios.get(`${API_URL}/api/v1/admins/session`, {
         withCredentials: true,
       });
       if (response.data.authenticated) {

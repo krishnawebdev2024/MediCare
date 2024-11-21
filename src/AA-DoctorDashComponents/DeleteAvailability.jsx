@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAvailability } from "../doctorContextsAndReducers/availabilityContext";
+import { useAvailability } from "../doctorContextsAndBookingContexts/availabilityContext";
 import { useDoctorContext } from "../contexts/doctorContext";
 
 const DeleteAvailability = () => {
