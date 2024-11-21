@@ -1,74 +1,162 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import DoctorProfileCard from "../AA-DoctorDashComponents/DoctorProfileCard";
+import CreateAvailability from "../AA-DoctorDashComponents/CreateAvailability";
+import GetAvailability from "../AA-DoctorDashComponents/GetAvailability"; // Import GetAvailability
+import UpdateAvailability from "../AA-DoctorDashComponents/UpdateAvailability";
+import DeleteAvailability from "../AA-DoctorDashComponents/DeleteAvailability";
+import DeleteSlots from "../AA-DoctorDashComponents/DeleteSlots";
+import ConfirmedBookings from "../AA-DoctorDashComponents/ConfirmedBookings";
 
+import UpdateBookingStatus from "../A-AdminDashComponents/UpdateBookingStatus";
+
+import LogoutDoctor from "../03-DoctorAccountCreate/LogoutDoctor";
+
+// Main Dashboard Layout
 const AdminDashboardLayout = () => {
-  const [doctors, setDoctors] = useState([]);
-  const [availability, setAvailability] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [activeComponent, setActiveComponent] = useState("profile");
 
-  // Fetch doctors when the component mounts
-  useEffect(() => {
-    const fetchDoctors = async () => {
-      setLoading(true); // Start loading
-      try {
-        const response = await fetch("http://localhost:3000/api/v1/doctors");
-        const data = await response.json();
-        setDoctors(data); // Set doctors data
-      } catch (err) {
-        setError("Failed to fetch doctors"); // Set error if fetch fails
-      } finally {
-        setLoading(false); // Stop loading
-      }
-    };
+  // Determine what to render based on the activeComponent state
+  const renderContent = () => {
+    switch (activeComponent) {
+      case "profile":
+        return <DoctorProfileCard />;
+      case "createAvailability":
+        return <CreateAvailability />;
+      case "getAvailability": // Add this case for GetAvailability
+        return <GetAvailability />;
+      case "updateAvailability": // Add this case for UpdateAvailability
+        return <UpdateAvailability />;
+      case "deleteAvailability": // Add this case for DeleteAvailability
+        return <DeleteAvailability />;
 
-    fetchDoctors();
-  }, []); // Empty dependency array, so it runs once on component mount
+      case "deleteSlots": // Add this case for DeleteSlots
+        return <DeleteSlots />;
 
-  // Fetch doctor's availability when doctorId changes
-  useEffect(() => {
-    if (doctors.length > 0) {
-      // Assume that we are fetching availability for the first doctor
-      const doctorId = doctors[0]._id;
-      const fetchAvailability = async () => {
-        setLoading(true); // Start loading
-        try {
-          const response = await axios.get(
-            `http://localhost:3000/api/v1/doctorAvailability/${doctorId}`
-          );
-          setAvailability(response.data); // Store availability data
-        } catch (err) {
-          console.error("Error fetching availability:", err);
-          setError("Failed to fetch availability"); // Set error if fetch fails
-        } finally {
-          setLoading(false); // Stop loading
-        }
-      };
+      case "confirmedBookings": // Add this case for ConfirmedBookings
+        return <ConfirmedBookings />;
+      case "updateBookingStatus": // Add this case for UpdateBookingStatus
+        return <UpdateBookingStatus />;
 
-      fetchAvailability();
+      case "logout":
+        return <LogoutDoctor />;
+      default:
+        return <Analytics />;
     }
-  }, [doctors]); // Runs when doctors data changes (after it's fetched)
+  };
 
   return (
-    <div>
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
+    <div className="flex min-h-screen mt-[80px] dark:bg-gray-900">
+      {/* Sidebar */}
+      <div className="bg-gray-800 text-white w-64 p-4 dark:bg-gray-700">
+        <h2 className="text-2xl font-bold mb-6 text-white">Doctor Dashboard</h2>
+        <nav className="space-y-4">
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "profile"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("profile")}
+          >
+            Profile
+          </button>
 
-      <h2>Doctors</h2>
-      <ul>
-        {doctors.map((doctor) => (
-          <li key={doctor._id}>{doctor.name}</li>
-        ))}
-      </ul>
+          {/* Create Availability Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "createAvailability"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("createAvailability")}
+          >
+            Add Availability
+          </button>
 
-      <h2>Doctor Availability</h2>
-      <ul>
-        {availability.map((slot) => (
-          <li key={slot._id}>
-            {slot.startTime} - {slot.endTime}
-          </li>
-        ))}
-      </ul>
+          {/* Get Availability Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "getAvailability"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("getAvailability")} // Switch to GetAvailability
+          >
+            View Availability
+          </button>
+          {/* Update Availability Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "updateAvailability"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("updateAvailability")} // Switch to UpdateAvailability
+          >
+            Edit Availability
+          </button>
+
+          {/* Delete Availability Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "deleteAvailability"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("deleteAvailability")} // Switch to DeleteAvailability
+          >
+            Delete Availability
+          </button>
+          {/* Delete Slots Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "deleteSlots"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("deleteSlots")} // Switch to DeleteSlots
+          >
+            Delete Slots
+          </button>
+
+          {/* Confirmed Bookings Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "confirmedBookings"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("confirmedBookings")} // Switch to ConfirmedBookings
+          >
+            Confirmed Bookings
+          </button>
+
+          {/* Update Booking Status Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "updateBookingStatus"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("updateBookingStatus")} // Switch to UpdateBookingStatus
+          >
+            Update Booking Status
+          </button>
+
+          {/* Logout Button */}
+          <button
+            className="w-full text-left p-3 mt-4 rounded-md text-red-500 hover:bg-gray-700"
+            onClick={() => setActiveComponent("logout")}
+          >
+            Logout
+          </button>
+        </nav>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 p-6 bg-gray-100 dark:bg-gray-800">
+        {renderContent()}
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useAvailability } from "../doctorContextsAndReducers/availabilityContext"; // Import the availability context
+import { useAvailability } from "../doctorContextsAndBookingContexts/availabilityContext"; // Import the availability context
 import { useDoctorContext } from "../contexts/doctorContext"; // Import doctor context for doctor data
 
 const GetAvailability = () => {

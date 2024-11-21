@@ -16,14 +16,14 @@ export const AuthProvider = ({ children }) => {
     initialState
   );
 
-  const URL = "http://localhost:3000";
+  const API_URL = "http://localhost:3000";
 
   // Login action
   const login = async (email, password) => {
     dispatch({ type: "SET_LOADING" });
     try {
       const response = await axios.post(
-        `${URL}/api/v1/users/login`,
+        `${API_URL}/api/v1/users/login`,
         { email, password },
         { withCredentials: true }
       );
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
     dispatch({ type: "SET_LOADING" });
     try {
       await axios.post(
-        `${URL}/api/v1/users/logout`,
+        `${API_URL}/api/v1/users/logout`,
         {},
         { withCredentials: true }
       );
@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }) => {
   const checkSession = async () => {
     dispatch({ type: "SET_LOADING" });
     try {
-      const response = await axios.get(`${URL}/api/v1/users/session`, {
+      const response = await axios.get(`${API_URL}/api/v1/users/session`, {
         withCredentials: true,
       });
       console.log(response.data);
