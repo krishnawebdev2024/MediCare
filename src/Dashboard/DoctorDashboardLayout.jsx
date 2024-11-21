@@ -5,6 +5,7 @@ import GetAvailability from "../AA-DoctorDashComponents/GetAvailability"; // Imp
 import UpdateAvailability from "../AA-DoctorDashComponents/UpdateAvailability";
 import DeleteAvailability from "../AA-DoctorDashComponents/DeleteAvailability";
 import DeleteSlots from "../AA-DoctorDashComponents/DeleteSlots";
+import ConfirmedBookings from "../AA-DoctorDashComponents/ConfirmedBookings";
 import LogoutDoctor from "../03-DoctorAccountCreate/LogoutDoctor";
 
 // Main Dashboard Layout
@@ -28,7 +29,9 @@ const DoctorDashboardLayout = () => {
       case "deleteSlots": // Add this case for DeleteSlots
         return <DeleteSlots />;
 
-      case "logout":
+      case "confirmedBookings": // Add this case for ConfirmedBookings
+        return <ConfirmedBookings />;
+
       case "logout":
         return <LogoutDoctor />;
       default:
@@ -109,6 +112,18 @@ const DoctorDashboardLayout = () => {
             onClick={() => setActiveComponent("deleteSlots")} // Switch to DeleteSlots
           >
             Delete Slots
+          </button>
+
+          {/* Confirmed Bookings Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "confirmedBookings"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("confirmedBookings")} // Switch to ConfirmedBookings
+          >
+            Confirmed Bookings
           </button>
 
           {/* Logout Button */}

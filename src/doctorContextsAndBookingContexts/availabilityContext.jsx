@@ -1,5 +1,6 @@
 import React, { createContext, useReducer, useContext } from "react";
 import axios from "axios";
+//import { API_URL } from "../config";
 
 // Initial State
 const initialState = {
@@ -9,11 +10,11 @@ const initialState = {
   success: false,
 };
 
-// Base URL for API
-const API_URL = "http://localhost:3000/api/v1/doctorAvailability";
+// API URL for doctorAvailability
+const API_URL = "http://localhost:3000";
 
 // Reducer Function
-const availabilityReducer = (state, action) => {
+function availabilityReducer(state, action) {
   switch (action.type) {
     case "SET_LOADING":
       return { ...state, loading: true, error: null };
@@ -37,22 +38,10 @@ const availabilityReducer = (state, action) => {
         loading: false,
       };
 
-    // case "UPDATE_AVAILABILITY":
-    //   return {
-    //     ...state,
-    //     availabilities: state.availabilities.map((availability) =>
-    //       availability._id === action.payload._id
-    //         ? { ...availability, availability: action.payload.availability }
-    //         : availability
-    //     ),
-    //     loading: false,
-    //   };
-
     case "UPDATE_AVAILABILITY":
       return {
         ...state,
         availabilities: state.availabilities.map((availability) => {
-          // Ensure availability and availability._id exist before comparison
           if (
             availability &&
             availability._id &&
@@ -63,7 +52,7 @@ const availabilityReducer = (state, action) => {
               ? { ...availability, availability: action.payload.availability }
               : availability;
           }
-          return availability; // Return the availability unchanged if the check fails
+          return availability;
         }),
         loading: false,
       };
@@ -85,10 +74,9 @@ const availabilityReducer = (state, action) => {
           if (availability._id === availabilityId) {
             return {
               ...availability,
-              // Check if slots exist and is an array before filtering
               slots: Array.isArray(availability.slots)
                 ? availability.slots.filter((slot) => slot._id !== slotId)
-                : [], // If slots doesn't exist or is not an array, return an empty array
+                : [],
             };
           }
           return availability;
@@ -100,15 +88,10 @@ const availabilityReducer = (state, action) => {
     default:
       return state;
   }
-};
+}
 
 // Create Context
 const AvailabilityContext = createContext();
-
-// Custom Hook for Convenience
-export const useAvailability = () => {
-  return useContext(AvailabilityContext);
-};
 
 // Provider Component
 const AvailabilityProvider = ({ children }) => {
@@ -118,7 +101,25 @@ const AvailabilityProvider = ({ children }) => {
   const fetchAvailabilities = async (doctorId) => {
     dispatch({ type: "SET_LOADING" });
     try {
-      const response = await axios.get(`${API_URL}/${doctorId}`);
+      const response = await axios.get(
+        `${API_URL}/api/v1/doctorAvailability/${doctorId}`
+      );
+      dispatch({ type: "SET_AVAILABILITIES", payload: response.data });
+    } catch (error) {
+      dispatch({
+        type: "SET_ERROR",
+        payload: error.response ? error.response.data.message : error.message,
+      });
+    }
+  };
+
+  // Fetch Availability for a Specific Doctor
+  const fetchAvailabilitiesById = async (doctorId) => {
+    dispatch({ type: "SET_LOADING" });
+    try {
+      const response = await axios.get(
+        `${API_URL}/api/v1/doctorAvailability/${doctorId}`
+      );
       dispatch({ type: "SET_AVAILABILITIES", payload: response.data });
     } catch (error) {
       dispatch({
@@ -132,14 +133,16 @@ const AvailabilityProvider = ({ children }) => {
   const createAvailability = async (availabilityData) => {
     dispatch({ type: "SET_LOADING" });
     try {
-      const response = await axios.post(API_URL, availabilityData);
+      const response = await axios.post(
+        `${API_URL}/api/v1/doctorAvailability`,
+        availabilityData
+      );
       dispatch({
         type: "ADD_AVAILABILITY",
         payload: response.data.newAvailability,
       });
       dispatch({ type: "SET_SUCCESS" });
 
-      // Reset success after a timeout
       setTimeout(() => {
         dispatch({ type: "RESET_SUCCESS" });
       }, 3000);
@@ -156,7 +159,7 @@ const AvailabilityProvider = ({ children }) => {
     dispatch({ type: "SET_LOADING" });
     try {
       const response = await axios.put(
-        `${API_URL}/${availabilityId}`,
+        `${API_URL}/api/v1/doctorAvailability/${availabilityId}`,
         updatedData
       );
       dispatch({
@@ -175,7 +178,9 @@ const AvailabilityProvider = ({ children }) => {
   const deleteAvailability = async (availabilityId) => {
     dispatch({ type: "SET_LOADING" });
     try {
-      await axios.delete(`${API_URL}/${availabilityId}`);
+      await axios.delete(
+        `${API_URL}/api/v1/doctorAvailability/${availabilityId}`
+      );
       dispatch({ type: "DELETE_AVAILABILITY", payload: availabilityId });
     } catch (error) {
       dispatch({
@@ -189,7 +194,10 @@ const AvailabilityProvider = ({ children }) => {
   const deleteSlot = async (availabilityId, slotId) => {
     dispatch({ type: "SET_LOADING" });
     try {
-      await axios.delete(`${API_URL}/${availabilityId}/slot/${slotId}`);
+      await axios.delete(
+        `${API_URL}/api/v1/doctorAvailability/${availabilityId}/slot/${slotId}`
+      );
+
       dispatch({
         type: "DELETE_SLOT",
         payload: { availabilityId, slotId },
@@ -209,10 +217,11 @@ const AvailabilityProvider = ({ children }) => {
     error: state.error,
     success: state.success,
     fetchAvailabilities,
+    fetchAvailabilitiesById,
     createAvailability,
     updateAvailability,
     deleteAvailability,
-    deleteSlot, // Add deleteSlot to context value
+    deleteSlot,
   };
 
   return (
@@ -221,5 +230,8 @@ const AvailabilityProvider = ({ children }) => {
     </AvailabilityContext.Provider>
   );
 };
+
+// Custom Hook for Convenience
+export const useAvailability = () => useContext(AvailabilityContext);
 
 export default AvailabilityProvider;

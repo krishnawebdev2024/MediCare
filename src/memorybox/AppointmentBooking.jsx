@@ -14,26 +14,9 @@ const AppointmentBooking = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
-  const [bookingStatus, setBookingStatus] = useState(null);
 
   const { user, loading: authLoading, error: authError } = useAuthContext();
-  const {
-    doctor,
-    loading: doctorLoading,
-    error: doctorError,
-    getDoctors,
-    getDoctorById,
-  } = useDoctorContext();
-  const {
-    availability,
-    loading: availabilityLoading,
-    error: availabilityError,
-  } = useAvailability();
-  const {
-    booking,
-    loading: bookingLoading,
-    error: bookingError,
-  } = useBooking();
+  const [bookingStatus, setBookingStatus] = useState(null);
 
   const patientId = user?._id;
 
@@ -41,10 +24,9 @@ const AppointmentBooking = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/doctors"
-        );
-        setDoctors(response.data);
+        const response = await fetch("http://localhost:3000/api/v1/doctors");
+        const data = await response.json();
+        setDoctors(data);
       } catch (err) {
         setError("Failed to fetch doctors");
       } finally {

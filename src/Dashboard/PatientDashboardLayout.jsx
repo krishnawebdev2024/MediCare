@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-/* import DoctorProfileCard from "../AA-DoctorDashComponents/DoctorProfileCard";
-import CreateAvailability from "../AA-DoctorDashComponents/CreateAvailability";
-import GetAvailability from "../AA-DoctorDashComponents/GetAvailability"; // Import GetAvailability
-import UpdateAvailability from "../AA-DoctorDashComponents/UpdateAvailability";
-import DeleteAvailability from "../AA-DoctorDashComponents/DeleteAvailability"; */
+
 import PatientProfileCard from "../AAA-PatientDashComponents/PatientProfileCard";
 import DoctorsList from "../AAA-PatientDashComponents/DoctorsList";
 import AppointmentBooking from "../AAA-PatientDashComponents/AppointmentBooking";
+import BookedAppointments from "../AAA-PatientDashComponents/BookedAppointments";
+import CancelAppointment from "../AAA-PatientDashComponents/CancelAppointment";
 
 import Logout from "../01-UserAccountCreate/Logout";
 
@@ -23,17 +21,14 @@ const PatientDashboardLayout = () => {
         return <DoctorsList />;
       case "appointmentBooking":
         return <AppointmentBooking />;
-
-      /* Add more cases for other components */
-
-      /*      case "createAvailability":
-        return <CreateAvailability />;
-      case "getAvailability": // Add this case for GetAvailability
-        return <GetAvailability />;
+      case "bookedAppointments":
+        return <BookedAppointments />;
+      case "cancelAppointment":
+        return <CancelAppointment />;
       case "updateAvailability": // Add this case for UpdateAvailability
         return <UpdateAvailability />;
       case "deleteAvailability": // Add this case for DeleteAvailability
-        return <DeleteAvailability />; */
+        return <DeleteAvailability />;
 
       case "logout":
         return <Logout />;
@@ -83,6 +78,29 @@ const PatientDashboardLayout = () => {
             onClick={() => setActiveComponent("appointmentBooking")}
           >
             Book Appointment
+          </button>
+          {/* Doctors Tabs */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "bookedAppointments"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("bookedAppointments")}
+          >
+            Appointments status
+          </button>
+
+          {/* Cancel Appointment */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "cancelAppointment"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("cancelAppointment")}
+          >
+            Decline Appointment
           </button>
 
           {/* Logout Button */}
