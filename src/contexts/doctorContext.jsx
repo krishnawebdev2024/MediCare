@@ -106,7 +106,7 @@ export const DoctorProvider = ({ children }) => {
         dispatch({ type: "LOGOUT" });
       }
     } catch (err) {
-      console.error("Error checking session:", err);
+      //      console.error("Error checking session:", err);
       dispatch({ type: "LOGOUT" });
     }
   };
