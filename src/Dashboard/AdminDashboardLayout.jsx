@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import DoctorProfileCard from "../AA-DoctorDashComponents/DoctorProfileCard";
-import CreateAvailability from "../AA-DoctorDashComponents/CreateAvailability";
-import GetAvailability from "../AA-DoctorDashComponents/GetAvailability"; // Import GetAvailability
-import UpdateAvailability from "../AA-DoctorDashComponents/UpdateAvailability";
-import DeleteAvailability from "../AA-DoctorDashComponents/DeleteAvailability";
-import DeleteSlots from "../AA-DoctorDashComponents/DeleteSlots";
-import ConfirmedBookings from "../AA-DoctorDashComponents/ConfirmedBookings";
 
 import UpdateBookingStatus from "../A-AdminDashComponents/UpdateBookingStatus";
+import AdminProfileCard from "../A-AdminDashComponents/AdminProfileCard ";
+import Inbox from "../A-AdminDashComponents/Inbox";
 
-import LogoutDoctor from "../03-DoctorAccountCreate/LogoutDoctor";
+import LogoutAdmin from "../02-AdminAccountCreate/LogoutAdmin";
 
 // Main Dashboard Layout
 const AdminDashboardLayout = () => {
@@ -19,28 +14,18 @@ const AdminDashboardLayout = () => {
   const renderContent = () => {
     switch (activeComponent) {
       case "profile":
-        return <DoctorProfileCard />;
-      case "createAvailability":
-        return <CreateAvailability />;
-      case "getAvailability": // Add this case for GetAvailability
-        return <GetAvailability />;
-      case "updateAvailability": // Add this case for UpdateAvailability
-        return <UpdateAvailability />;
-      case "deleteAvailability": // Add this case for DeleteAvailability
-        return <DeleteAvailability />;
+        return <AdminProfileCard />;
 
-      case "deleteSlots": // Add this case for DeleteSlots
-        return <DeleteSlots />;
-
-      case "confirmedBookings": // Add this case for ConfirmedBookings
-        return <ConfirmedBookings />;
       case "updateBookingStatus": // Add this case for UpdateBookingStatus
         return <UpdateBookingStatus />;
 
+      case "inbox": // Add this case for Inbox
+        return <Inbox />;
+
       case "logout":
-        return <LogoutDoctor />;
+        return <LogoutAdmin />;
       default:
-        return <Analytics />;
+        return <AdminProfileCard />;
     }
   };
 
@@ -48,7 +33,7 @@ const AdminDashboardLayout = () => {
     <div className="flex min-h-screen mt-[80px] dark:bg-gray-900">
       {/* Sidebar */}
       <div className="bg-gray-800 text-white w-64 p-4 dark:bg-gray-700">
-        <h2 className="text-2xl font-bold mb-6 text-white">Doctor Dashboard</h2>
+        <h2 className="text-2xl font-bold mb-6 text-white">Admin Dashboard</h2>
         <nav className="space-y-4">
           <button
             className={`w-full text-left p-3 rounded-md ${
@@ -60,75 +45,14 @@ const AdminDashboardLayout = () => {
           >
             Profile
           </button>
-
-          {/* Create Availability Button */}
+          {/* Inbox Button */}
           <button
             className={`w-full text-left p-3 rounded-md ${
-              activeComponent === "createAvailability"
-                ? "bg-gray-600"
-                : "hover:bg-gray-700"
+              activeComponent === "inbox" ? "bg-gray-600" : "hover:bg-gray-700"
             }`}
-            onClick={() => setActiveComponent("createAvailability")}
+            onClick={() => setActiveComponent("inbox")} // Switch to Inbox
           >
-            Add Availability
-          </button>
-
-          {/* Get Availability Button */}
-          <button
-            className={`w-full text-left p-3 rounded-md ${
-              activeComponent === "getAvailability"
-                ? "bg-gray-600"
-                : "hover:bg-gray-700"
-            }`}
-            onClick={() => setActiveComponent("getAvailability")} // Switch to GetAvailability
-          >
-            View Availability
-          </button>
-          {/* Update Availability Button */}
-          <button
-            className={`w-full text-left p-3 rounded-md ${
-              activeComponent === "updateAvailability"
-                ? "bg-gray-600"
-                : "hover:bg-gray-700"
-            }`}
-            onClick={() => setActiveComponent("updateAvailability")} // Switch to UpdateAvailability
-          >
-            Edit Availability
-          </button>
-
-          {/* Delete Availability Button */}
-          <button
-            className={`w-full text-left p-3 rounded-md ${
-              activeComponent === "deleteAvailability"
-                ? "bg-gray-600"
-                : "hover:bg-gray-700"
-            }`}
-            onClick={() => setActiveComponent("deleteAvailability")} // Switch to DeleteAvailability
-          >
-            Delete Availability
-          </button>
-          {/* Delete Slots Button */}
-          <button
-            className={`w-full text-left p-3 rounded-md ${
-              activeComponent === "deleteSlots"
-                ? "bg-gray-600"
-                : "hover:bg-gray-700"
-            }`}
-            onClick={() => setActiveComponent("deleteSlots")} // Switch to DeleteSlots
-          >
-            Delete Slots
-          </button>
-
-          {/* Confirmed Bookings Button */}
-          <button
-            className={`w-full text-left p-3 rounded-md ${
-              activeComponent === "confirmedBookings"
-                ? "bg-gray-600"
-                : "hover:bg-gray-700"
-            }`}
-            onClick={() => setActiveComponent("confirmedBookings")} // Switch to ConfirmedBookings
-          >
-            Confirmed Bookings
+            Inbox
           </button>
 
           {/* Update Booking Status Button */}
