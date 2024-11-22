@@ -73,10 +73,10 @@ export const AuthProvider = ({ children }) => {
       const response = await axios.get(`${API_URL}/api/v1/users/session`, {
         withCredentials: true,
       });
-      console.log(response.data);
+
       if (response.data.authenticated) {
         dispatch({ type: "SET_USER", payload: response.data.user });
-        console.log("Authenticated user is this person:", response.data.user);
+        // console.log("Authenticated user is this person:", response.data.user);
       } else {
         dispatch({ type: "LOGOUT" });
       }

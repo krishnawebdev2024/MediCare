@@ -8,26 +8,64 @@ const Inbox = () => {
   useEffect(() => {
     // Fetch all messages when component mounts
     getAllMessages();
-  }, []); // Added getAllMessages to dependency array
+  }, [getAllMessages]); // Added getAllMessages to dependency array
 
-  const handleDelete = (id) => {
-    console.log("Deleting message with id:", id); // Log the id before deleting
-    // Call delete function from context
-    deleteMessage(id);
+  //const handleDelete = (id) => {
+  //  console.log("Deleting message with id:", id); // Log the id before deleting
+  //  // Call delete function from context
+  //  deleteMessage(id);
+  //  getAllMessages();
+  //};
+
+  const handleDelete = async (id) => {
+    try {
+      console.log("Deleting message with id:", id); // Log the id before deleting
+      // Wait for deleteMessage to complete
+      await deleteMessage(id);
+      // Fetch all messages after deletion
+      await getAllMessages();
+    } catch (error) {
+      console.error("Error while deleting the message:", error);
+    }
   };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="spinner-border animate-spin inline-block w-16 h-16 border-4 rounded-full border-t-transparent border-primary"></div>
+        <div className="spinner-border animate-spin inline-block w-16 h-16 //der-4 rounded-full border-t-transparent border-primary"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center text-red-500">
-        <p>Error fetching messages: {error}</p>
+      <div className="flex justify-center items-center min-h-screen bg-gray-50  dark:bg-slate-600">
+        <div className="max-w-md w-full bg-white  shadow-lg rounded-lg p-8  text-center space-y-4">
+          <div className="flex justify-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-16 w-16 text-red-500 animate-bounce"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 16h-1v-4h.01M12 8h.01M21 12c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9 9-4.03 9-9z"
+              />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-semibold text-gray-800">Inbox Empty</h1>
+          <p className="text-gray-600">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300"
+          >
+            Retry
+          </button>
+        </div>
       </div>
     );
   }

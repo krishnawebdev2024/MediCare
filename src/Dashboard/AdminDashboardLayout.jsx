@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import UpdateBookingStatus from "../A-AdminDashComponents/UpdateBookingStatus";
 import AdminProfileCard from "../A-AdminDashComponents/AdminProfileCard ";
 import Inbox from "../A-AdminDashComponents/Inbox";
-
+import DoctorCards from "../A-AdminDashComponents/DoctorCards";
+import FetchDoctorAvailability from "../A-AdminDashComponents/FetchDoctorAvailability";
 import LogoutAdmin from "../02-AdminAccountCreate/LogoutAdmin";
 
 // Main Dashboard Layout
@@ -21,6 +22,10 @@ const AdminDashboardLayout = () => {
 
       case "inbox": // Add this case for Inbox
         return <Inbox />;
+      case "doctorCards": // Add this case for DoctorCards
+        return <DoctorCards />;
+      case "fetchDoctorAvailability": // Add this case for FetchDoctorAvailability
+        return <FetchDoctorAvailability />;
 
       case "logout":
         return <LogoutAdmin />;
@@ -65,6 +70,30 @@ const AdminDashboardLayout = () => {
             onClick={() => setActiveComponent("updateBookingStatus")} // Switch to UpdateBookingStatus
           >
             Update Booking Status
+          </button>
+
+          {/* Doctor Cards Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "doctorCards"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("doctorCards")} // Switch to DoctorCards
+          >
+            Doctors
+          </button>
+
+          {/* Fetch Doctor Availability Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "fetchDoctorAvailability"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("fetchDoctorAvailability")} // Switch to FetchDoctorAvailability
+          >
+            Fetch Doctor Availability
           </button>
 
           {/* Logout Button */}

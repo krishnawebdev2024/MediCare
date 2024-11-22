@@ -1,4 +1,5 @@
 import React, { createContext, useReducer, useContext } from "react";
+import { useCallback } from "react";
 import axios from "axios";
 
 // API URL for doctorAvailability
@@ -71,6 +72,7 @@ const messageReducer = (state, action) => {
       return {
         ...state,
         error: action.payload,
+        loading: false, // Ensure loading is reset
       };
     default:
       return state;
@@ -111,7 +113,26 @@ export const MessageProvider = ({ children }) => {
   };
 
   // Get all messages (for admin view)
-  const getAllMessages = async () => {
+  //const getAllMessages = async () => {
+  //  try {
+  //    dispatch({ type: "SET_LOADING" });
+  //    const response = await axios.get(`${API_URL}/api/v1/messages`);
+  //
+  //    dispatch({
+  //      type: "GET_ALL_MESSAGES",
+  //      payload: response.data.messages,
+  //    });
+  //  } catch (error) {
+  //    dispatch({
+  //      type: "SET_ERROR",
+  //      payload: error.response
+  //        ? error.response.data.message
+  //        : "Error occurred",
+  //    });
+  //  }
+  //};
+  // Get all messages (for admin view)
+  const getAllMessages = useCallback(async () => {
     try {
       dispatch({ type: "SET_LOADING" });
       const response = await axios.get(`${API_URL}/api/v1/messages`);
@@ -128,7 +149,7 @@ export const MessageProvider = ({ children }) => {
           : "Error occurred",
       });
     }
-  };
+  }, []);
 
   // Get a single message by ID
   const getMessageById = async (id) => {
