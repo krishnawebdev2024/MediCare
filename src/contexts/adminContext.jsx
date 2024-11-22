@@ -30,6 +30,7 @@ export const AdminProvider = ({ children }) => {
 
       if (response.data && response.data.admin) {
         dispatch({ type: "LOGIN", payload: response.data.admin });
+
         return response.data.admin;
       } else {
         throw new Error("Invalid credentials");
