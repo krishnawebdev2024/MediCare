@@ -165,9 +165,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const x = () => {
     if (document.location.href.includes("doctor")) {
-      console.log("The URL includes 'doctor'.");
     } else {
-      console.log("The URL does not include 'doctor'.");
     }
   };
   x();

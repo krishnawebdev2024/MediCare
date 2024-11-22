@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import UpdateBookingStatus from "../A-AdminDashComponents/UpdateBookingStatus";
 import AdminProfileCard from "../A-AdminDashComponents/AdminProfileCard ";
 import Inbox from "../A-AdminDashComponents/Inbox";
+import DoctorCards from "../A-AdminDashComponents/DoctorCards";
+import BookingList from "../A-AdminDashComponents/BookingList";
 
 import LogoutAdmin from "../02-AdminAccountCreate/LogoutAdmin";
 
@@ -21,6 +23,11 @@ const AdminDashboardLayout = () => {
 
       case "inbox": // Add this case for Inbox
         return <Inbox />;
+      case "doctorCards": // Add this case for DoctorCards
+        return <DoctorCards />;
+
+      case "bookingList": // Add this case for BookingList
+        return <BookingList />;
 
       case "logout":
         return <LogoutAdmin />;
@@ -65,6 +72,30 @@ const AdminDashboardLayout = () => {
             onClick={() => setActiveComponent("updateBookingStatus")} // Switch to UpdateBookingStatus
           >
             Update Booking Status
+          </button>
+
+          {/* Doctor Cards Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "doctorCards"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("doctorCards")} // Switch to DoctorCards
+          >
+            Doctors
+          </button>
+
+          {/* Booking List Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "bookingList"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("bookingList")} // Switch to BookingList
+          >
+            Booking List
           </button>
 
           {/* Logout Button */}

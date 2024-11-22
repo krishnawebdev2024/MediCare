@@ -26,9 +26,37 @@ const UpdateBookingStatus = () => {
 
   if (error) {
     return (
-      <p className="text-center text-red-500">
-        Error fetching bookings: {error}
-      </p>
+      <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-slate-600">
+        <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8 text-center space-y-6">
+          <div className="flex justify-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-16 w-16 text-red-500 animate-bounce"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              aria-label="Error Icon"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M13 16h-1v-4h.01M12 8h.01M21 12c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9 9-4.03 9-9z"
+              />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-semibold text-gray-800">
+            You don’t have any bookings yet.
+          </h1>
+          <p className="text-gray-600">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-3 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
     );
   }
 
@@ -81,28 +109,20 @@ const UpdateBookingStatus = () => {
                       onClick={() =>
                         handleUpdateStatus(booking._id, "confirmed")
                       }
-                      className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all duration-200 ease-in-out transform hover:scale-105"
+                      className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-all duration-200 ease-in-out transform ver:scale-105"
                     >
                       Confirm Booking
                     </button>
-                    <button
-                      onClick={() =>
-                        handleUpdateStatus(booking._id, "cancelled")
-                      }
-                      className="w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all duration-200 ease-in-out transform hover:scale-105 mt-2"
-                    >
-                      Cancel Booking
-                    </button>
                   </>
                 )}
-                {booking.status === "confirmed" && (
+                {/*  {booking.status === "confirmed" && (
                   <button
                     onClick={() => handleUpdateStatus(booking._id, "cancelled")}
                     className="w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all duration-200 ease-in-out transform hover:scale-105"
                   >
                     Cancel Booking
                   </button>
-                )}
+                )} */}
               </div>
             </li>
           ))}
@@ -115,3 +135,12 @@ const UpdateBookingStatus = () => {
 };
 
 export default UpdateBookingStatus;
+
+//<button
+//onClick={() =>
+//  handleUpdateStatus(booking._id, "cancelled")
+//}
+//className="w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all duration-200 ease-in-out transform hover:scale-105 -2"
+//>
+//Cancel Booking
+//</button>
