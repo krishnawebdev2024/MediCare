@@ -4,7 +4,8 @@ import UpdateBookingStatus from "../A-AdminDashComponents/UpdateBookingStatus";
 import AdminProfileCard from "../A-AdminDashComponents/AdminProfileCard ";
 import Inbox from "../A-AdminDashComponents/Inbox";
 import DoctorCards from "../A-AdminDashComponents/DoctorCards";
-import FetchDoctorAvailability from "../A-AdminDashComponents/FetchDoctorAvailability";
+import BookingList from "../A-AdminDashComponents/BookingList";
+
 import LogoutAdmin from "../02-AdminAccountCreate/LogoutAdmin";
 
 // Main Dashboard Layout
@@ -24,8 +25,9 @@ const AdminDashboardLayout = () => {
         return <Inbox />;
       case "doctorCards": // Add this case for DoctorCards
         return <DoctorCards />;
-      case "fetchDoctorAvailability": // Add this case for FetchDoctorAvailability
-        return <FetchDoctorAvailability />;
+
+      case "bookingList": // Add this case for BookingList
+        return <BookingList />;
 
       case "logout":
         return <LogoutAdmin />;
@@ -84,16 +86,16 @@ const AdminDashboardLayout = () => {
             Doctors
           </button>
 
-          {/* Fetch Doctor Availability Button */}
+          {/* Booking List Button */}
           <button
             className={`w-full text-left p-3 rounded-md ${
-              activeComponent === "fetchDoctorAvailability"
+              activeComponent === "bookingList"
                 ? "bg-gray-600"
                 : "hover:bg-gray-700"
             }`}
-            onClick={() => setActiveComponent("fetchDoctorAvailability")} // Switch to FetchDoctorAvailability
+            onClick={() => setActiveComponent("bookingList")} // Switch to BookingList
           >
-            Fetch Doctor Availability
+            Booking List
           </button>
 
           {/* Logout Button */}
