@@ -35,7 +35,7 @@ const DoctorDashboardLayout = () => {
       case "logout":
         return <LogoutDoctor />;
       default:
-        return <Analytics />;
+        return <DoctorProfileCard />;
     }
   };
 
@@ -123,7 +123,7 @@ const DoctorDashboardLayout = () => {
             }`}
             onClick={() => setActiveComponent("confirmedBookings")} // Switch to ConfirmedBookings
           >
-            Confirmed Bookings
+            View Bookings
           </button>
 
           {/* Logout Button */}
