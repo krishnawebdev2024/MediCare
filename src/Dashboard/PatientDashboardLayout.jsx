@@ -25,10 +25,9 @@ const PatientDashboardLayout = () => {
         return <BookedAppointments />;
       case "cancelAppointment":
         return <CancelAppointment />;
-      case "updateAvailability": // Add this case for UpdateAvailability
-        return <UpdateAvailability />;
-      case "deleteAvailability": // Add this case for DeleteAvailability
-        return <DeleteAvailability />;
+
+      case "uploadPDF":
+        return <PdfUploader />;
 
       case "logout":
         return <Logout />;

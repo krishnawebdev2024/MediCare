@@ -1,4 +1,10 @@
-import { useContext, createContext, useReducer, useEffect } from "react";
+import {
+  useContext,
+  createContext,
+  useReducer,
+  useEffect,
+  useCallback,
+} from "react";
 import axios from "axios";
 import doctorsReducer from "../reducers/doctorsReducer";
 
@@ -48,7 +54,21 @@ export const DoctorProvider = ({ children }) => {
   };
 
   // Fetch all doctors
-  const getDoctors = async () => {
+  //const getDoctors = async () => {
+  //  dispatch({ type: "SET_LOADING" });
+  //  try {
+  //    const response = await axios.get(`${API_URL}/api/v1/doctors`);
+  //    dispatch({ type: "SET_DOCTORS", payload: response.data });
+  //  } catch (err) {
+  //    dispatch({
+  //      type: "SET_ERROR",
+  //      payload: err.response?.data?.message || "Failed to retrieve doctors",
+  //    });
+  //  }
+  //};
+
+  // Fetch all doctors
+  const getDoctors = useCallback(async () => {
     dispatch({ type: "SET_LOADING" });
     try {
       const response = await axios.get(`${API_URL}/api/v1/doctors`);
@@ -59,7 +79,7 @@ export const DoctorProvider = ({ children }) => {
         payload: err.response?.data?.message || "Failed to retrieve doctors",
       });
     }
-  };
+  }, [API_URL]);
 
   // Fetch doctor by ID
   const getDoctorById = async (id) => {

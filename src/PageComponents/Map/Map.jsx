@@ -1,7 +1,7 @@
 import L from "leaflet"; // Import Leaflet for custom icons
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import ambulance from "../../../public/ambulance.png";
+import ambulance from "../../assets/ambulance.png";
 
 const Map = () => {
   // Locations with custom markers

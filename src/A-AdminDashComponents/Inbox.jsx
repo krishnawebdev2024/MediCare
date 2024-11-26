@@ -1,46 +1,40 @@
 import React, { useEffect } from "react";
-import { useMessageContext } from "../doctorContextsAndBookingContexts/MessageContext.jsx"; // Adjusted import to match the path
+import { useMessageContext } from "../doctorContextsAndBookingContexts/MessageContext.jsx";
+import { toast, ToastContainer } from "react-toastify"; // Import toast and ToastContainer
+import "react-toastify/dist/ReactToastify.css"; // Import the Toastify CSS
 
 const Inbox = () => {
   const { state, getAllMessages, deleteMessage } = useMessageContext();
   const { messages, loading, error } = state;
 
   useEffect(() => {
-    // Fetch all messages when component mounts
     getAllMessages();
-  }, [getAllMessages]); // Added getAllMessages to dependency array
-
-  //const handleDelete = (id) => {
-  //  console.log("Deleting message with id:", id); // Log the id before deleting
-  //  // Call delete function from context
-  //  deleteMessage(id);
-  //  getAllMessages();
-  //};
+  }, [getAllMessages]);
 
   const handleDelete = async (id) => {
     try {
-      console.log("Deleting message with id:", id); // Log the id before deleting
-      // Wait for deleteMessage to complete
+      console.log("Deleting message with id:", id);
       await deleteMessage(id);
-      // Fetch all messages after deletion
       await getAllMessages();
+      toast.success("Message successfully deleted!"); // Show success toast
     } catch (error) {
       console.error("Error while deleting the message:", error);
+      toast.error("Failed to delete the message. Please try again!"); // Show error toast
     }
   };
 
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <div className="spinner-border animate-spin inline-block w-16 h-16 //der-4 rounded-full border-t-transparent border-primary"></div>
+        <div className="spinner-border animate-spin inline-block w-16 h-16 rounded-full border-t-transparent border-primary"></div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-50  dark:bg-slate-600">
-        <div className="max-w-md w-full bg-white  shadow-lg rounded-lg p-8  text-center space-y-4">
+      <div className="flex justify-center items-center min-h-screen bg-gray-50 dark:bg-slate-600">
+        <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8 text-center space-y-4">
           <div className="flex justify-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -107,6 +101,8 @@ const Inbox = () => {
           </div>
         ))
       )}
+      <ToastContainer position="bottom-center" />{" "}
+      {/* Ensuring ToastContainer is placed at the bottom-center */}
     </div>
   );
 };

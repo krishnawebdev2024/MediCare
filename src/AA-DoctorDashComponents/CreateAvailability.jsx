@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useAvailability } from "../doctorContextsAndBookingContexts/availabilityContext"; // Import the availability context
 import { useDoctorContext } from "../contexts/doctorContext"; // Doctor context for doctor data
+import { toast, ToastContainer } from "react-toastify"; // Import Toast
+import "react-toastify/dist/ReactToastify.css"; // Import the Toastify CSS
 
 const CreateAvailability = () => {
   const { doctor } = useDoctorContext();
@@ -80,8 +82,10 @@ const CreateAvailability = () => {
       await createAvailability(availabilityData);
       setDate("");
       setSlots([{ startTime: "", endTime: "" }]);
+      toast.success("Availability created successfully!");
     } catch (err) {
       console.error("Error creating availability:", err);
+      toast.error("Failed to create availability.");
       createAvailability({
         loading: false,
         error: "Failed to create availability.",
@@ -92,11 +96,9 @@ const CreateAvailability = () => {
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-xl">
       <p className="mt-2 text-gray-500">Doctor ID: {doctor?._id}</p>
-
       <h2 className="text-3xl font-semibold text-center text-gray-800">
         Create New Availability
       </h2>
-
       {error && (
         <p className="text-red-500 hover:text-red-600 text-center mt-4">
           {error}
@@ -107,7 +109,6 @@ const CreateAvailability = () => {
           Availability created successfully!
         </p>
       )}
-
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         {/* Date Picker */}
         <div>
@@ -189,6 +190,7 @@ const CreateAvailability = () => {
           </button>
         </div>
       </form>
+      <ToastContainer /> {/* Add ToastContainer here to show toasts */}
     </div>
   );
 };

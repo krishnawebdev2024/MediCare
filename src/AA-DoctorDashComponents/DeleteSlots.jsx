@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useAvailability } from "../doctorContextsAndBookingContexts/availabilityContext";
 import { useDoctorContext } from "../contexts/doctorContext";
+import { toast, ToastContainer } from "react-toastify"; // Import Toast
+import "react-toastify/dist/ReactToastify.css"; // Import the Toastify CSS
 
 const DeleteSlot = () => {
   const { doctor } = useDoctorContext();
@@ -40,10 +42,12 @@ const DeleteSlot = () => {
           // After deleting the slot, re-fetch the updated availabilities
           fetchAvailabilities(doctorId);
           setIsModalOpen(false); // Close the modal after deletion
+          toast.success("Slot deleted successfully!");
         })
         .catch((err) => {
           // Handle any errors that occur during deletion
           console.error("Error deleting slot:", err);
+          toast.error("Failed to delete the slot. Please try again.");
         });
     }
   };
@@ -56,11 +60,9 @@ const DeleteSlot = () => {
   return (
     <div className="p-4">
       <h2 className="text-lg font-bold mb-4 dark:text-white">Delete Slot</h2>
-
       {/* Show Loading or Error */}
       {loading && <p>Loading...</p>}
       {error && <p className="text-red-500">{error}</p>}
-
       {/* Show Availabilities */}
       <ul className="space-y-4">
         {availabilities.map((availability) => (
@@ -132,14 +134,12 @@ const DeleteSlot = () => {
           </li>
         ))}
       </ul>
-
       {/* No availabilities */}
       {availabilities.length === 0 && !loading && (
         <p className="text-gray-500">
           No availabilities found for this doctor.
         </p>
       )}
-
       {/* Modal for confirming delete */}
       {isModalOpen && (
         <div className="fixed inset-0 flex justify-center items-center bg-gray-500 bg-opacity-50">
@@ -163,6 +163,7 @@ const DeleteSlot = () => {
           </div>
         </div>
       )}
+      <ToastContainer /> {/* Add ToastContainer here to show toasts */}
     </div>
   );
 };

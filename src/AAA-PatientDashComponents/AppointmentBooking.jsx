@@ -4,6 +4,8 @@ import { useDoctorContext } from "../contexts/doctorContext";
 import { useAvailability } from "../doctorContextsAndBookingContexts/availabilityContext";
 import { useBooking } from "../doctorContextsAndBookingContexts/BookingContext";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify"; // Import Toastify components
+import "react-toastify/dist/ReactToastify.css"; // Import styles
 
 const AppointmentBooking = () => {
   const [doctors, setDoctors] = useState([]);
@@ -17,6 +19,14 @@ const AppointmentBooking = () => {
   const [bookingStatus, setBookingStatus] = useState(null);
 
   const { user, loading: authLoading, error: authError } = useAuthContext();
+
+  // Get the createBooking function from the context
+  const {
+    createBooking,
+    loading: contextLoading,
+    error: contextError,
+  } = useBooking();
+
   const {
     doctor,
     loading: doctorLoading,
@@ -47,6 +57,7 @@ const AppointmentBooking = () => {
         setDoctors(response.data);
       } catch (err) {
         setError("Failed to fetch doctors");
+        toast.error("Failed to fetch doctors!");
       } finally {
         setLoading(false);
       }
@@ -75,6 +86,7 @@ const AppointmentBooking = () => {
       setAvailableDates(dates);
     } catch (err) {
       setError("Error fetching availability");
+      toast.error("Error fetching availability!");
       console.error(err);
     }
   };
@@ -98,38 +110,70 @@ const AppointmentBooking = () => {
   const handleSlotSelect = (slot) => {
     if (slot.isBooked) {
       // Prevent selection if the slot is booked
+      toast.error("This slot is already booked. Please select another slot.");
       alert("This slot is already booked. Please select another slot.");
       return; // Prevent setting the selectedSlot
     }
-    setSelectedSlot(slot); // Allow selection if the slot is available
+    setSelectedSlot(slot);
+    // Allow selection if the slot is available
     console.log("Selected slot:", slot);
   };
 
   // Book appointment
+  //const handleBooking = async () => {
+  //  if (!selectedDoctor || !selectedDate || !selectedSlot) {
+  //    setBookingStatus("Please select a doctor, date, and slot.");
+  //    return;
+  //  }
+  //
+  //  try {
+  //    const response = await axios.post(
+  //      "http://localhost:3000/api/v1/bookings",
+  //      {
+  //        doctorId: selectedDoctor,
+  //        patientId: patientId,
+  //        date: selectedDate,
+  //        slot: {
+  //          startTime: selectedSlot.startTime,
+  //          endTime: selectedSlot.endTime,
+  //        },
+  //      }
+  //    );
+  //    console.log("Booking successful:", response.data);
+  //    setBookingStatus("Appointment booked successfully!");
+  //  } catch (error) {
+  //    console.error("Error booking appointment:", error);
+  //    setBookingStatus("Failed to book appointment. Please try again.");
+  //  }
+  //};
+
+  // Handle booking creation
   const handleBooking = async () => {
     if (!selectedDoctor || !selectedDate || !selectedSlot) {
       setBookingStatus("Please select a doctor, date, and slot.");
       return;
     }
 
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/bookings",
-        {
-          doctorId: selectedDoctor,
-          patientId: patientId,
-          date: selectedDate,
-          slot: {
-            startTime: selectedSlot.startTime,
-            endTime: selectedSlot.endTime,
-          },
-        }
-      );
-      console.log("Booking successful:", response.data);
+    // Create the booking data based on the structure
+    const bookingData = {
+      doctorId: selectedDoctor,
+      patientId: patientId,
+      date: selectedDate,
+      slot: {
+        startTime: selectedSlot.startTime,
+        endTime: selectedSlot.endTime,
+      },
+    };
+
+    // Use createBooking function from context to create a new booking
+    await createBooking(bookingData);
+
+    if (!error) {
       setBookingStatus("Appointment booked successfully!");
-    } catch (error) {
-      console.error("Error booking appointment:", error);
+      toast.success("Appointment booked successfully!"); // Success toast
+    } else {
       setBookingStatus("Failed to book appointment. Please try again.");
+      toast.error("Failed to book appointment. Please try again."); // Error toast
     }
   };
 
@@ -173,7 +217,9 @@ const AppointmentBooking = () => {
       {/* Display available dates */}
       {availableDates.length > 0 && selectedDoctor && (
         <div className="mb-8">
-          <h3 className="text-xl font-semibold mb-4">Available Dates</h3>
+          <h3 className="text-xl font-semibold mb-4">
+            Please Select an Available Date
+          </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {availableDates.map((date) => (
               <button
@@ -192,7 +238,7 @@ const AppointmentBooking = () => {
       {selectedDate && availableSlots.length > 0 && (
         <div className="mb-8">
           <h3 className="text-xl font-semibold mb-4">
-            Available Slots for {selectedDate}
+            Available Slots for {new Date(selectedDate).toLocaleDateString()}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {availableSlots.map((slot) => (
@@ -223,6 +269,17 @@ const AppointmentBooking = () => {
       {selectedSlot && (
         <div className="mt-8">
           <h3 className="text-xl font-semibold mb-4">Selected Slot</h3>
+          <h3 className="text-xl font-semibold mb-4">
+            You have selected [{" "}
+            {new Date(selectedDate).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+            ]. {selectedSlot.startTime} - {selectedSlot.endTime} Please confirm
+            your appointment.
+          </h3>
+
           <div className="bg-gray-700 p-6 rounded-lg">
             <p className="text-lg font-semibold">
               {selectedSlot.startTime} - {selectedSlot.endTime}
@@ -254,6 +311,18 @@ const AppointmentBooking = () => {
       {bookingStatus && (
         <div className="mt-8 text-lg font-semibold">{bookingStatus}</div>
       )}
+      {/* Toast container */}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 };
