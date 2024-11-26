@@ -14,9 +14,34 @@ const AppointmentBooking = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableSlots, setAvailableSlots] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [bookingStatus, setBookingStatus] = useState(null);
 
   const { user, loading: authLoading, error: authError } = useAuthContext();
-  const [bookingStatus, setBookingStatus] = useState(null);
+
+  // Get the createBooking function from the context
+  const {
+    createBooking,
+    loading: contextLoading,
+    error: contextError,
+  } = useBooking();
+
+  const {
+    doctor,
+    loading: doctorLoading,
+    error: doctorError,
+    getDoctors,
+    getDoctorById,
+  } = useDoctorContext();
+  const {
+    availability,
+    loading: availabilityLoading,
+    error: availabilityError,
+  } = useAvailability();
+  const {
+    booking,
+    loading: bookingLoading,
+    error: bookingError,
+  } = useBooking();
 
   const patientId = user?._id;
 
@@ -24,9 +49,10 @@ const AppointmentBooking = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/v1/doctors");
-        const data = await response.json();
-        setDoctors(data);
+        const response = await axios.get(
+          "http://localhost:3000/api/v1/doctors"
+        );
+        setDoctors(response.data);
       } catch (err) {
         setError("Failed to fetch doctors");
       } finally {
@@ -88,29 +114,57 @@ const AppointmentBooking = () => {
   };
 
   // Book appointment
+  //const handleBooking = async () => {
+  //  if (!selectedDoctor || !selectedDate || !selectedSlot) {
+  //    setBookingStatus("Please select a doctor, date, and slot.");
+  //    return;
+  //  }
+  //
+  //  try {
+  //    const response = await axios.post(
+  //      "http://localhost:3000/api/v1/bookings",
+  //      {
+  //        doctorId: selectedDoctor,
+  //        patientId: patientId,
+  //        date: selectedDate,
+  //        slot: {
+  //          startTime: selectedSlot.startTime,
+  //          endTime: selectedSlot.endTime,
+  //        },
+  //      }
+  //    );
+  //    console.log("Booking successful:", response.data);
+  //    setBookingStatus("Appointment booked successfully!");
+  //  } catch (error) {
+  //    console.error("Error booking appointment:", error);
+  //    setBookingStatus("Failed to book appointment. Please try again.");
+  //  }
+  //};
+
+  // Handle booking creation
   const handleBooking = async () => {
     if (!selectedDoctor || !selectedDate || !selectedSlot) {
       setBookingStatus("Please select a doctor, date, and slot.");
       return;
     }
 
-    try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/bookings",
-        {
-          doctorId: selectedDoctor,
-          patientId: patientId,
-          date: selectedDate,
-          slot: {
-            startTime: selectedSlot.startTime,
-            endTime: selectedSlot.endTime,
-          },
-        }
-      );
-      console.log("Booking successful:", response.data);
+    // Create the booking data based on the structure
+    const bookingData = {
+      doctorId: selectedDoctor,
+      patientId: patientId,
+      date: selectedDate,
+      slot: {
+        startTime: selectedSlot.startTime,
+        endTime: selectedSlot.endTime,
+      },
+    };
+
+    // Use createBooking function from context to create a new booking
+    await createBooking(bookingData);
+
+    if (!error) {
       setBookingStatus("Appointment booked successfully!");
-    } catch (error) {
-      console.error("Error booking appointment:", error);
+    } else {
       setBookingStatus("Failed to book appointment. Please try again.");
     }
   };

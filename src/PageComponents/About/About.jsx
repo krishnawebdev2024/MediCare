@@ -5,7 +5,7 @@ import { FiArrowUpRight } from "react-icons/fi";
 const About = () => {
   return (
     <>
-      <div className="mt-8 bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200  py-12">
+      <div className="mt-[100px] bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200  py-12">
         <div className="container mx-auto px-6 md:px-12 lg:px-24 ">
           <h1 className="text-5xl font-extrabold text-center text-blue-600 dark:text-blue-400 mb-8">
             About Us

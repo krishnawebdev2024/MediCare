@@ -123,7 +123,7 @@ const Navbar = () => {
         </button>
 
         {/* Dashboard Link */}
-        <div className=" pb-4">
+        <div>
           <DashboardLink />
         </div>
 
