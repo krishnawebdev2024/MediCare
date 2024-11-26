@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useAvailability } from "../doctorContextsAndBookingContexts/availabilityContext";
 import { useDoctorContext } from "../contexts/doctorContext";
+import { toast, ToastContainer } from "react-toastify"; // Import Toast
+import "react-toastify/dist/ReactToastify.css"; // Import the Toastify CSS
 
 const UpdateAvailability = () => {
   const { doctor } = useDoctorContext();
@@ -83,6 +85,16 @@ const UpdateAvailability = () => {
       fetchAvailabilities(doctorId);
       setEditingSlot(null);
       setUpdatedSlot({});
+      toast.success("Availability updated successfully!", {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } catch (err) {
       console.error("Failed to update availability:", err);
     }
@@ -93,18 +105,15 @@ const UpdateAvailability = () => {
       <h2 className="text-4xl font-bold text-center text-gray-800 mb-6">
         Update Doctor's Availability
       </h2>
-
       {/* Loading and Error Messages */}
       {loading && <p className="text-gray-600 text-center mt-4">Loading...</p>}
       {error && <p className="text-red-600 text-center mt-4">{error}</p>}
-
       {/* No Availabilities Message */}
       {availabilities && availabilities.length === 0 && (
         <p className="text-gray-600 text-center mt-4">
           No availabilities found.
         </p>
       )}
-
       {/* Availability Cards */}
       {availabilities && availabilities.length > 0 && (
         <div className="space-y-6 mt-8">
@@ -197,6 +206,7 @@ const UpdateAvailability = () => {
           ))}
         </div>
       )}
+      <ToastContainer /> {/* Add ToastContainer here to show toasts */}
     </div>
   );
 };

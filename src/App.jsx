@@ -133,6 +133,9 @@ import Preloader from "./AnimeComponents/preloader/Preloader";
 import ScrollToTop from "./AnimeComponents/ScrollToTop/ScrollToTop";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
+
 import { AuthProvider } from "./contexts/index";
 import { AdminProvider } from "./contexts/index";
 import { DoctorProvider } from "./contexts/index";
@@ -213,6 +216,7 @@ export default function App() {
                       <Route path="/about" element={<About />} />
                       <Route path="/services" element={<Services />} />
                       <Route path="/contact" element={<Contact />} />
+
                       {/* Sign-up and Login routes for patients */}
                       <Route path="/patient-register" element={<Form />} />
                       <Route
@@ -253,6 +257,13 @@ export default function App() {
           </DoctorProvider>
         </AdminProvider>
       </AuthProvider>
+      {/* Toast container for showing toast notifications */}
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        style={{ top: "200px" }} // Moves the toast 100px down from the top
+      />
     </>
   );
 }

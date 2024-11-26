@@ -37,11 +37,24 @@ const BookedAppointments = () => {
     return <p className="text-center text-gray-500">Loading bookings...</p>;
   }
 
-  if (error) {
-    return (
-      <p className="text-center text-red-500">
-        Error fetching bookings: {error}
-      </p>
+  {
+    error && (
+      <div className="flex justify-center items-center my-4 p-4 bg-red-100 text-red-600 rounded-lg shadow-md border border-red-300">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6 mr-2"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            fillRule="evenodd"
+            d="M10 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16zm-.5-9.5a.5.5 0 0 0-1 0v3a.5.5 0 0 0 1 0V8.5zm0 4.5a.5.5 0 0 0-1 0v.5a.5.5 0 0 0 1 0v-.5z"
+            clipRule="evenodd"
+          />
+        </svg>
+        <span className="font-semibold">Error fetching bookings:</span> {error}
+      </div>
     );
   }
 
