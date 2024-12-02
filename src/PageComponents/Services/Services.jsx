@@ -69,7 +69,7 @@ const Services = () => {
 
   return (
     <>
-      <div className=" bg-gray-100 dark:bg-gray-900 mt-[100px]">
+      <div className=" bg-gray-100 dark:bg-gray-900 mt-[80px]">
         <div className="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 py-12 ">
           <div className="container mx-auto px-6 md:px-12 lg:px-20">
             <h1 className="text-5xl font-bold text-center text-blue-600 dark:text-blue-400 mb-10">

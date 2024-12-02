@@ -7,16 +7,31 @@ const UserContext = createContext();
 const initialState = {
   loading: false,
   user: null,
+  users: [],
   error: null,
 };
 
 export const AuthProvider = ({ children }) => {
-  const [{ loading, user, error }, dispatch] = useReducer(
+  const [{ loading, user, users, error }, dispatch] = useReducer(
     usersReducer,
     initialState
   );
 
   const API_URL = "http://localhost:3000";
+
+  // Fetch all users action
+  const fetchUsers = async () => {
+    dispatch({ type: "SET_LOADING" });
+    try {
+      const response = await axios.get(`${API_URL}/api/v1/users`);
+      dispatch({ type: "SET_USERS", payload: response.data }); // Dispatch users data to state
+    } catch (err) {
+      dispatch({
+        type: "SET_ERROR",
+        payload: err.response?.data?.message || "Failed to fetch users",
+      });
+    }
+  };
 
   // Login action
   const login = async (email, password) => {
@@ -92,7 +107,17 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, loading, error, login, logout }}>
+    <UserContext.Provider
+      value={{
+        user,
+        users,
+        fetchUsers,
+        loading,
+        error,
+        login,
+        logout,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

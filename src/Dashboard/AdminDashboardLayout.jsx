@@ -4,6 +4,7 @@ import UpdateBookingStatus from "../A-AdminDashComponents/UpdateBookingStatus";
 import AdminProfileCard from "../A-AdminDashComponents/AdminProfileCard ";
 import Inbox from "../A-AdminDashComponents/Inbox";
 import DoctorCards from "../A-AdminDashComponents/DoctorCards";
+import UsersList from "../AAA-PatientDashComponents/UsersList";
 import BookingList from "../A-AdminDashComponents/BookingList";
 
 import LogoutAdmin from "../02-AdminAccountCreate/LogoutAdmin";
@@ -26,6 +27,9 @@ const AdminDashboardLayout = () => {
       case "doctorCards": // Add this case for DoctorCards
         return <DoctorCards />;
 
+      case "usersList": // Add this case for UsersList
+        return <UsersList />;
+
       case "bookingList": // Add this case for BookingList
         return <BookingList />;
 
@@ -37,7 +41,7 @@ const AdminDashboardLayout = () => {
   };
 
   return (
-    <div className="flex min-h-screen mt-[80px] dark:bg-gray-900">
+    <div className="flex min-h-screen mt-[110px] dark:bg-gray-900">
       {/* Sidebar */}
       <div className="bg-gray-800 text-white w-64 p-4 dark:bg-gray-700">
         <h2 className="text-2xl font-bold mb-6 text-white">Admin Dashboard</h2>
@@ -85,6 +89,17 @@ const AdminDashboardLayout = () => {
           >
             Doctors
           </button>
+          {/* Users List Button */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "usersList"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("usersList")} // Switch to UsersList
+          >
+            Users List
+          </button>
 
           {/* Booking List Button */}
           <button
@@ -100,8 +115,10 @@ const AdminDashboardLayout = () => {
 
           {/* Logout Button */}
           <button
-            className="w-full text-left p-3 mt-4 rounded-md text-red-500 hover:bg-gray-700"
-            onClick={() => setActiveComponent("logout")}
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "logout" ? "bg-red-600" : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("logout")} // Switch to Logout
           >
             Logout
           </button>

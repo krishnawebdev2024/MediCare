@@ -149,6 +149,7 @@ import Home from "./PageComponents/Home/Home";
 import About from "./PageComponents/About/About";
 import Services from "./PageComponents/Services/Services";
 import Contact from "./PageComponents/Contact/Contact";
+import Corona from "./PageComponents/corona/Corona.jsx";
 import FooterLatest from "./PageComponents/FooterLatest/FooterLatest";
 
 import AdminDashboardLayout from "./Dashboard/AdminDashboardLayout";
@@ -216,6 +217,7 @@ export default function App() {
                       <Route path="/about" element={<About />} />
                       <Route path="/services" element={<Services />} />
                       <Route path="/contact" element={<Contact />} />
+                      <Route path="/corona" element={<Corona />} />
 
                       {/* Sign-up and Login routes for patients */}
                       <Route path="/patient-register" element={<Form />} />
