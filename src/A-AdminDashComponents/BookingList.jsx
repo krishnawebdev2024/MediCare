@@ -77,24 +77,31 @@ const BookingList = () => {
         {bookings.map((booking) => (
           <div
             key={booking._id}
-            className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+            className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 max-w-md w-full mx-auto  border border-indigo-500 dark:border-indigo-400"
           >
-            <div className="flex flex-col space-y-4">
-              <div>
-                <h2 className="text-xl font-semibold text-gray-800">
+            <div className="flex flex-col space-y-6">
+              {/* Doctor Section */}
+              <div className="space-y-2">
+                <h2 className="text-2xl font-semibold text-gray-800 dark:text-white truncate">
                   Doctor: {booking.doctorId.name}
                 </h2>
-                <p className="text-gray-600">Email: {booking.doctorId.email}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm truncate">
+                  Email: {booking.doctorId.email}
+                </p>
               </div>
-              <div>
-                <h2 className="text-xl font-semibold text-gray-800">
+
+              {/* Patient Section */}
+              <div className="space-y-2">
+                <h2 className="text-2xl font-semibold text-gray-800 dark:text-white truncate">
                   Patient: {booking.patientId.name}
                 </h2>
-                <p className="text-gray-600">
+                <p className="text-gray-600 dark:text-gray-400 text-sm truncate">
                   Email: {booking.patientId.email}
                 </p>
               </div>
-              <div className="flex justify-between items-center text-gray-600">
+
+              {/* Date and Time Section */}
+              <div className="flex justify-between items-center text-gray-600 dark:text-gray-400 text-sm">
                 <p>
                   Date:{" "}
                   {new Date(booking.date).toLocaleDateString("en-US", {
@@ -104,10 +111,12 @@ const BookingList = () => {
                     day: "numeric",
                   })}
                 </p>
-                <p>
+                <p className="bg-gray-200 p-4 rounded dark:text-black">
                   Time: {booking.slot.startTime} - {booking.slot.endTime}
                 </p>
               </div>
+
+              {/* Status Badge */}
               <div className="mt-4">
                 <span
                   className={`inline-block px-4 py-2 rounded-full text-white ${
@@ -121,12 +130,16 @@ const BookingList = () => {
                   {booking.status}
                 </span>
               </div>
-              <button
-                onClick={() => handleDelete(booking._id)}
-                className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300"
-              >
-                Cancel Appointment
-              </button>
+
+              {/* Cancel Button */}
+              <div className="mt-4">
+                <button
+                  onClick={() => handleDelete(booking._id)}
+                  className="w-full px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300"
+                >
+                  Cancel Appointment
+                </button>
+              </div>
             </div>
           </div>
         ))}

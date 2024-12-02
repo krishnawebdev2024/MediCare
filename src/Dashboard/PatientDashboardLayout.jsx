@@ -5,6 +5,7 @@ import DoctorsList from "../AAA-PatientDashComponents/DoctorsList";
 import AppointmentBooking from "../AAA-PatientDashComponents/AppointmentBooking";
 import BookedAppointments from "../AAA-PatientDashComponents/BookedAppointments";
 import CancelAppointment from "../AAA-PatientDashComponents/CancelAppointment";
+import FileUpload from "../AAA-PatientDashComponents/FileUpload";
 
 import Logout from "../01-UserAccountCreate/Logout";
 
@@ -26,8 +27,8 @@ const PatientDashboardLayout = () => {
       case "cancelAppointment":
         return <CancelAppointment />;
 
-      case "uploadPDF":
-        return <PdfUploader />;
+      case "fileUpload":
+        return <FileUpload />;
 
       case "logout":
         return <Logout />;
@@ -37,7 +38,7 @@ const PatientDashboardLayout = () => {
   };
 
   return (
-    <div className="flex min-h-screen mt-[80px] dark:bg-gray-900">
+    <div className="flex min-h-screen mt-[110px] dark:bg-gray-900">
       {/* Sidebar */}
       <div className="bg-gray-800 text-white w-64 p-4 dark:bg-gray-700">
         <h2 className="text-2xl font-bold mb-6 text-white">
@@ -100,6 +101,18 @@ const PatientDashboardLayout = () => {
             onClick={() => setActiveComponent("cancelAppointment")}
           >
             Decline Appointment
+          </button>
+
+          {/* File Upload */}
+          <button
+            className={`w-full text-left p-3 rounded-md ${
+              activeComponent === "fileUpload"
+                ? "bg-gray-600"
+                : "hover:bg-gray-700"
+            }`}
+            onClick={() => setActiveComponent("fileUpload")}
+          >
+            Upload Prescription
           </button>
 
           {/* Logout Button */}

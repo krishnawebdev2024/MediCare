@@ -21,7 +21,7 @@ const Map = () => {
   // Custom icon
   const customIcon = new L.Icon({
     iconUrl: ambulance, // Replace with your own icon path
-    iconSize: [128, 64], // Size of the icon
+    iconSize: [64, 32], // Size of the icon
   });
 
   return (

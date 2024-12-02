@@ -40,7 +40,7 @@ const DoctorDashboardLayout = () => {
   };
 
   return (
-    <div className="flex min-h-screen mt-[80px] dark:bg-gray-900">
+    <div className="flex min-h-screen mt-[110px] dark:bg-gray-900">
       {/* Sidebar */}
       <div className="bg-gray-800 text-white w-64 p-4 dark:bg-gray-700">
         <h2 className="text-2xl font-bold mb-6 text-white">Doctor Dashboard</h2>

@@ -3,135 +3,138 @@ import { useDoctorContext } from "../contexts/doctorContext";
 import { useAvailability } from "../doctorContextsAndBookingContexts/availabilityContext";
 
 const DoctorCards = () => {
-  const { doctors, loading, error, getDoctors } = useDoctorContext();
+  const { getDoctors, doctors, loading, error } = useDoctorContext();
   const {
     fetchAvailabilitiesById,
     availabilities,
-    loading: availabilityLoading,
-    error: availabilityError,
+    availabilityLoading,
+    availabilityError,
   } = useAvailability();
 
-  const [doctorId, setDoctorId] = useState(null);
+  const [localDoctors, setLocalDoctors] = useState([]);
+  const [selectedDoctorId, setSelectedDoctorId] = useState(null);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
 
   useEffect(() => {
-    getDoctors();
-  }, []);
+    const fetchDoctors = async () => {
+      try {
+        if (doctors.length === 0) {
+          await getDoctors(); // Fetch doctors if not already fetched
+        }
+      } catch (err) {
+        console.error("Error fetching doctors:", err);
+      }
+    };
 
-  const handleShowAvailabilities = (id) => {
-    setDoctorId(id); // Set the selected doctor's ID
-    fetchAvailabilitiesById(id); // Fetch availabilities for the selected doctor
+    fetchDoctors();
+  }, [getDoctors, doctors.length]);
+
+  useEffect(() => {
+    setLocalDoctors(doctors); // Update local state after doctors are fetched
+  }, [doctors]);
+
+  const handleDoctorSelect = (id) => {
+    const doctor = doctors.find((doc) => doc._id === id);
+    setSelectedDoctorId(id);
+    setSelectedDoctor(doctor);
+    fetchAvailabilitiesById(id);
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-opacity-75"></div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center text-red-500">
-        <p>Error fetching doctors: {error}</p>
-      </div>
-    );
-  }
+  if (loading) return <p>Loading doctors...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="p-6 grid grid-cols-1 gap-8">
-      {doctors.length === 0 ? (
-        <p className="text-center text-gray-500 col-span-full">
-          No doctors available.
-        </p>
-      ) : (
-        doctors.map((doctor) => (
+    <div className="container p-6 mx-auto max-w-screen-lg dark:bg-gray-900 dark:text-white">
+      <h1 className="text-3xl font-bold text-center mb-6">Doctors</h1>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {localDoctors.map((doctor) => (
           <div
             key={doctor._id}
-            className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden p-4 flex flex-col lg:flex-row space-y-4 lg:space-y-0"
+            className={`card p-6 border rounded-lg shadow-lg transform transition-all hover:scale-105 cursor-pointer ${
+              selectedDoctorId === doctor._id
+                ? "bg-blue-500 text-white border-blue-700"
+                : "bg-white border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+            }`}
+            onClick={() => handleDoctorSelect(doctor._id)}
           >
-            {/* Doctor Image and Details Section */}
-            <div className="flex-shrink-0 w-full lg:w-1/3">
-              <img
-                src={doctor.image}
-                alt={`${doctor.name}'s avatar`}
-                className="w-full h-48 object-cover rounded-lg shadow-md"
-              />
-              <h3 className="mt-4 text-xl font-semibold text-gray-800 dark:text-white">
-                {doctor.name}
-              </h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                {doctor.email}
-              </p>
-              <p className="mt-2 text-xs text-gray-400 dark:text-gray-500">
-                Role:{" "}
-                {doctor.role.charAt(0).toUpperCase() + doctor.role.slice(1)}
-              </p>
-              <p className="mt-2 mb-4 text-xs text-gray-600 dark:text-gray-300">
-                Doctor ID: {doctor._id}
-              </p>
-
-              {/* Action Buttons */}
-              <div className="mt-4 flex flex-col space-y-3">
-                <button
-                  className="bg-blue-500 dark:bg-blue-700 text-white py-2 px-4 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 active:scale-95 transition-all duration-200 shadow-md hover:shadow-lg"
-                  onClick={() => handleShowAvailabilities(doctor._id)}
-                >
-                  Show Availabilities
-                </button>
-              </div>
-            </div>
-
-            {/* Availabilities Results Section */}
-            <div className="flex-grow w-full lg:w-2/3 lg:pl-6">
-              {doctor._id === doctorId && (
-                <div className="w-full mt-6 lg:mt-0 lg:w-1/2 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md">
-                  {availabilityLoading ? (
-                    <p>Loading availabilities...</p>
-                  ) : availabilityError ? (
-                    <p className="text-red-500">{availabilityError}</p>
-                  ) : availabilities.length === 0 ? (
-                    <p>No availability found for this doctor.</p>
-                  ) : (
-                    <div>
-                      <h3 className="text-xl mb-2 text-gray-800 dark:text-white">
-                        Available Dates and Slots:
-                      </h3>
-                      {availabilities.map((availability) => (
-                        <div
-                          key={availability._id}
-                          className="mb-4 p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition duration-150 ease-in-out"
-                        >
-                          <h4 className="text-lg font-semibold text-gray-800 dark:text-white">
-                            Date:{" "}
-                            {new Date(
-                              availability.availability[0].date
-                            ).toLocaleDateString()}
-                          </h4>
-                          <div>
-                            {availability.availability[0].slots.map((slot) => (
-                              <div
-                                key={slot._id}
-                                className="flex justify-between py-2 text-gray-700 dark:text-gray-300"
-                              >
-                                <span>
-                                  {slot.startTime} - {slot.endTime}
-                                </span>
-                                <span>
-                                  {slot.isBooked ? "Booked" : "Available"}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )}
+            <img
+              src={doctor.image}
+              alt={doctor.name}
+              className="w-24 h-24 object-cover rounded-full mx-auto"
+            />
+            <div className="text-center mt-4">
+              <p className="text-xl font-semibold">{doctor.name}</p>
+              <p className="text-gray-200">{doctor.email}</p>
+              <p className="text-gray-400">{doctor.role}</p>
             </div>
           </div>
-        ))
+        ))}
+      </div>
+
+      {selectedDoctorId && (
+        <div className="mt-12 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+          <h2 className="text-2xl font-semibold text-center mb-4">
+            Doctor Selected: {selectedDoctor.name}
+          </h2>
+          <h3 className="text-xl font-medium text-center text-gray-600 dark:text-gray-300">
+            Doctor's Availability
+          </h3>
+
+          {availabilityLoading && <p>Loading availability...</p>}
+          {availabilityError && (
+            <p className="text-red-500">Error: {availabilityError}</p>
+          )}
+
+          {availabilities.length > 0 ? (
+            <ul className="mt-6 space-y-4">
+              {availabilities.map((availability) => (
+                <li
+                  key={availability._id}
+                  className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg"
+                >
+                  <h4 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                    Available Dates:
+                  </h4>
+                  {availability.availability.map((slotData, index) => (
+                    <div key={index} className="mb-4">
+                      <p className="text-gray-600 dark:text-gray-400">
+                        <strong>Date:</strong>{" "}
+                        {new Date(slotData.date).toLocaleDateString()}
+                      </p>
+                      <ul className="space-y-2">
+                        {slotData.slots.map((slot) => (
+                          <li
+                            key={slot._id}
+                            className="flex justify-between items-center"
+                          >
+                            <p className="text-sm text-gray-800 dark:text-gray-300">
+                              <strong>Time:</strong> {slot.startTime} -{" "}
+                              {slot.endTime}
+                            </p>
+                            <p
+                              className={`text-sm font-medium ${
+                                slot.isBooked
+                                  ? "text-red-500"
+                                  : "text-green-500"
+                              }`}
+                            >
+                              <strong>Status:</strong>{" "}
+                              {slot.isBooked ? "Booked" : "Available"}
+                            </p>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-500 dark:text-gray-300">
+              No availability found for this doctor.
+            </p>
+          )}
+        </div>
       )}
     </div>
   );

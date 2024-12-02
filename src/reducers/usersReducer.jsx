@@ -4,6 +4,10 @@ const usersReducer = (state, action) => {
       return { ...state, loading: true, error: null };
     case "SET_USER":
       return { ...state, user: action.payload, loading: false, error: null };
+
+    case "SET_USERS":
+      return { ...state, loading: false, users: action.payload, error: null };
+
     case "LOGIN":
       return { ...state, user: action.payload, loading: false };
     case "LOGOUT":
