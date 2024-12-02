@@ -112,6 +112,12 @@ const Navbar = () => {
           <Link to="/contact" className="hover:text-gray-300">
             Contact
           </Link>
+          <Link
+            to="/corona"
+            className="text-sm md:text-base font-medium text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
+          >
+            COVID-19 Info
+          </Link>
         </div>
 
         {/* Dark Mode Toggle Button */}
@@ -191,6 +197,7 @@ const Navbar = () => {
           >
             Contact
           </Link>
+
           <Link
             to="/services"
             className="block px-4 py-2 hover:bg-blue-700 dark:hover:bg-gray-700"
@@ -198,6 +205,11 @@ const Navbar = () => {
           >
             Services
           </Link>
+          <Link
+            to="/corona"
+            className="block px-4 py-2 hover:bg-blue-700 dark:hover:bg-gray-700"
+            onClick={closeMobileMenu}
+          ></Link>
           <button
             onClick={handleAuthButtonClick}
             className="block bg-white text-blue-600 px-4 py-2 my-2 rounded hover:bg-gray-100 dark:bg-gray-700 dark:text-white"
