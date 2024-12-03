@@ -138,14 +138,14 @@ const About = () => {
           subheading="The Future of Healthcare"
           heading="MedicareApp at Your Service"
         >
-          <ExampleContent />
+          <ExampleContentOne />
         </TextParallaxContent>
         <TextParallaxContent
           imgUrl="https://plus.unsplash.com/premium_photo-1661580511704-404b878a4f96?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           subheading="Modern"
           heading="MedicareApp is Changing Healthcare Access"
         >
-          <ExampleContent />
+          <ExampleContentTwo />
         </TextParallaxContent>
       </div>
     </>
@@ -250,9 +250,46 @@ const ExampleContent = () => (
         goal is to help you stay healthy, active, and well-informed about your
         healthcare choices.
       </p>
-      <button className="w-full rounded bg-neutral-900 px-9 py-4 text-xl text-white transition-colors hover:bg-neutral-700 md:w-fit">
-        Read-More <FiArrowUpRight className="inline" />
-      </button>
+    </div>
+  </div>
+);
+
+const ExampleContentOne = () => (
+  <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-4 pb-24 pt-12 md:grid-cols-12">
+    <h2 className="col-span-1 text-3xl font-bold md:col-span-4 text-neutral-500">
+      Your Trusted Health Partner
+    </h2>
+    <div className="col-span-1 md:col-span-8">
+      <p className="mb-4 text-xl text-neutral-400 md:text-2xl">
+        Discover a healthcare experience centered around you. At Medicare, we
+        focus on delivering solutions that are innovative, inclusive, and easy
+        to access, ensuring everyone has the support they need.
+      </p>
+      <p className="mb-8 text-xl text-neutral-500 md:text-2xl">
+        Whether it’s simplifying appointments, offering tailored health tips, or
+        providing expert guidance, we’re here to help you take control of your
+        health journey with confidence.
+      </p>
+    </div>
+  </div>
+);
+
+const ExampleContentTwo = () => (
+  <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 px-4 pb-24 pt-12 md:grid-cols-12">
+    <h2 className="col-span-1 text-3xl font-bold md:col-span-4 text-neutral-500">
+      Redefining Accessible Care
+    </h2>
+    <div className="col-span-1 md:col-span-8">
+      <p className="mb-4 text-xl text-neutral-400 md:text-2xl">
+        At Medicare, we’re breaking barriers to create a seamless healthcare
+        experience. From cutting-edge telemedicine services to compassionate
+        in-person care, we’re making sure you’re never far from quality care.
+      </p>
+      <p className="mb-8 text-xl text-neutral-500 md:text-2xl">
+        Our commitment extends beyond just healthcare—it’s about empowering
+        communities and fostering healthier, happier lives. Join us in shaping
+        the future of accessible health solutions.
+      </p>
     </div>
   </div>
 );
