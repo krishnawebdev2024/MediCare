@@ -4,6 +4,9 @@ import axios from "axios";
 import Logo from "../../assets/Logo.png";
 import DashboardLink from "./DashboardLink";
 
+import { apiUrl } from "../../../config/config.js";
+const API_URL = apiUrl;
+
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -72,7 +75,7 @@ const Navbar = () => {
     if (isAuthenticated) {
       // Logout the user
       try {
-        await axios.post("http://localhost:3000/api/v1/users/logout", null, {
+        await axios.post(`${API_URL}/api/v1/users/logout`, null, {
           withCredentials: true,
         });
         document.cookie = "token=; Max-Age=0"; // Clear the token
@@ -114,7 +117,7 @@ const Navbar = () => {
           </Link>
           <Link
             to="/corona"
-            className="text-sm md:text-base font-medium text-gray-800 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
+            className="text-sm md:text-base font-medium text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300"
           >
             COVID-19 Info
           </Link>
@@ -232,13 +235,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-//<Link to="/admindashboard" className="hover:text-gray-300">
-//Admin
-//</Link>
-//<Link to="/Doctordashboard" className="hover:text-gray-300">
-//Doctor
-//</Link>
-//<Link to="/Patientdashboard" className="hover:text-gray-300">
-//patientdashboard
-//</Link>

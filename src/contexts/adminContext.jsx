@@ -1,6 +1,7 @@
 import { useContext, createContext, useReducer, useEffect } from "react";
 import axios from "axios";
 import adminsReducer from "../reducers/adminsReducer";
+import { apiUrl } from "../../config/config.js";
 
 const AdminContext = createContext();
 
@@ -16,7 +17,8 @@ export const AdminProvider = ({ children }) => {
     initialState
   );
 
-  const API_URL = "http://localhost:3000"; // Base URL for API
+  //const API_URL = "http://localhost:3000"; // Base URL for API
+  const API_URL = apiUrl;
 
   // Login action for admin
   const login = async (email, password) => {
@@ -27,6 +29,7 @@ export const AdminProvider = ({ children }) => {
         { email, password },
         { withCredentials: true }
       );
+      //console.log("API URL its working:", API_URL);
 
       if (response.data && response.data.admin) {
         dispatch({ type: "LOGIN", payload: response.data.admin });

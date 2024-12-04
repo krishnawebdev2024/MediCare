@@ -7,6 +7,9 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify"; // Import Toastify components
 import "react-toastify/dist/ReactToastify.css"; // Import styles
 
+import { apiUrl } from "../../config/config.js";
+const API_URL = apiUrl;
+
 const AppointmentBooking = () => {
   const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,10 +54,9 @@ const AppointmentBooking = () => {
   useEffect(() => {
     const fetchDoctors = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/doctors"
-        );
+        const response = await axios.get(`${API_URL}/api/v1/doctors`);
         setDoctors(response.data);
+        console.log("API URL hey all doctors check this out:", API_URL);
       } catch (err) {
         setError("Failed to fetch doctors");
         toast.error("Failed to fetch doctors!");
@@ -69,9 +71,10 @@ const AppointmentBooking = () => {
   const fetchAvailability = async (doctorId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/v1/doctorAvailability/${doctorId}`
+        `${API_URL}/api/v1/doctorAvailability/${doctorId}`
       );
       const doctorAvailability = response.data;
+      console.log("API URL hey availability check this out:", API_URL);
 
       const dates = doctorAvailability.flatMap((doctor) =>
         doctor.availability.map((item) => {

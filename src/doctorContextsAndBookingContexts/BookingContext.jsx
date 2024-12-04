@@ -1,10 +1,13 @@
 import React, { createContext, useReducer, useContext } from "react";
 import axios from "axios";
 
+import { apiUrl } from "../../config/config.js";
+
 // Create Booking Context
 const BookingContext = createContext();
 
-const API_URL = "http://localhost:3000";
+//const API_URL = "http://localhost:3000";
+const API_URL = apiUrl;
 
 // Initial state for booking
 const initialState = {
@@ -53,6 +56,7 @@ const BookingProvider = ({ children }) => {
     try {
       const { data } = await axios.get(`${API_URL}/api/v1/bookings`);
       dispatch({ type: "FETCH_BOOKINGS_SUCCESS", payload: data });
+      //console.log("API URL hey buddy check this out:", API_URL);
     } catch (error) {
       dispatch({
         type: "FETCH_BOOKINGS_FAILURE",

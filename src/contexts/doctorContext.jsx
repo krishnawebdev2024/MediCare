@@ -8,6 +8,8 @@ import {
 import axios from "axios";
 import doctorsReducer from "../reducers/doctorsReducer";
 
+import { apiUrl } from "../../config/config.js";
+
 const DoctorContext = createContext();
 
 const initialState = {
@@ -23,7 +25,8 @@ export const DoctorProvider = ({ children }) => {
     initialState
   );
 
-  const API_URL = "http://localhost:3000";
+  //const API_URL = "http://localhost:3000";
+  const API_URL = apiUrl;
 
   // Login action for doctor
   const login = async (email, password) => {
@@ -34,6 +37,7 @@ export const DoctorProvider = ({ children }) => {
         { email, password },
         { withCredentials: true }
       );
+      //console.log("API URL doctorrrrits working:", API_URL);
 
       if (response.data && response.data.doctor) {
         const doctorData = response.data.doctor;
