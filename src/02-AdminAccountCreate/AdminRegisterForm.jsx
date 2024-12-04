@@ -3,6 +3,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
+import { apiUrl } from "../../config/config.js";
+const API_URL = apiUrl;
+
 const AdminRegisterForm = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -59,7 +62,7 @@ const AdminRegisterForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/admins", // API URL adjusted for admins
+        `${API_URL}/api/v1/admins`,
         formDataObj,
         {
           headers: {
@@ -74,7 +77,7 @@ const AdminRegisterForm = () => {
         name: "",
         email: "",
         password: "",
-        role: "admin", // Set default role back to admin after submission
+        role: "admin",
         image: null,
       });
       setImagePreview(null);

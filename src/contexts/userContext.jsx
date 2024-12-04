@@ -1,6 +1,7 @@
 import { useContext, createContext, useReducer, useEffect } from "react";
 import axios from "axios";
 import usersReducer from "../reducers/usersReducer";
+import { apiUrl } from "../../config/config.js";
 
 const UserContext = createContext();
 
@@ -17,7 +18,8 @@ export const AuthProvider = ({ children }) => {
     initialState
   );
 
-  const API_URL = "http://localhost:3000";
+  //const API_URL = "http://localhost:3000";
+  const API_URL = apiUrl;
 
   // Fetch all users action
   const fetchUsers = async () => {
@@ -42,6 +44,7 @@ export const AuthProvider = ({ children }) => {
         { email, password },
         { withCredentials: true }
       );
+      console.log("API URL patient its working:", API_URL);
 
       // Ensure response contains a user
       if (response.data && response.data.user) {
