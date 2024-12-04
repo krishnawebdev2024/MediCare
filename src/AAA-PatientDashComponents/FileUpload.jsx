@@ -2,6 +2,10 @@ import React, { useState, useRef } from "react";
 import axios from "axios";
 import { FaRobot } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify"; // Import toast and ToastContainer
+
+import { apiUrl } from "../../config/config.js";
+const API_URL = apiUrl;
+
 const FileUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [question, setQuestion] = useState("");
@@ -35,7 +39,7 @@ const FileUpload = () => {
     toast.info("File cleared.");
   };
 
-  const API_URL = "http://localhost:3000";
+  //const API_URL = "http://localhost:3000";
 
   const handleUpload = async () => {
     if (!selectedFile) {
@@ -65,8 +69,10 @@ const FileUpload = () => {
       );
 
       setUploadStatus("File uploaded successfully!And your Summary is below");
+
       toast.success("File uploaded successfully.Your summary is here!"); // Show success toast
-      console.log("Response is here bro:", response.data);
+      console.log("Response data:", response.data);
+
       setSummary(response.data.AIOutcome.summary); // Set the summary here
     } catch (error) {
       setUploadStatus("Error uploading file. Please try again.");

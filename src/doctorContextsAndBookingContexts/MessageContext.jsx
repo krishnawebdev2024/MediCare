@@ -3,7 +3,10 @@ import { useCallback } from "react";
 import axios from "axios";
 
 // API URL for doctorAvailability
-const API_URL = "http://localhost:3000";
+//const API_URL = "http://localhost:3000";
+
+import { apiUrl } from "../../config/config.js";
+const API_URL = apiUrl;
 
 // Create the Message Context
 const MessageContext = createContext();
@@ -141,6 +144,7 @@ export const MessageProvider = ({ children }) => {
         type: "GET_ALL_MESSAGES",
         payload: response.data.messages,
       });
+      //console.log("API URL hey admin check this out:", API_URL);
     } catch (error) {
       dispatch({
         type: "SET_ERROR",

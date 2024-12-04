@@ -1,6 +1,7 @@
 import React, { createContext, useReducer, useContext } from "react";
 import axios from "axios";
-//import { API_URL } from "../config";
+
+import { apiUrl } from "../../config/config.js";
 
 // Initial State
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
 };
 
 // API URL for doctorAvailability
-const API_URL = "http://localhost:3000";
+//const API_URL = "http://localhost:3000";
+const API_URL = apiUrl;
 
 // Reducer Function
 function availabilityReducer(state, action) {
@@ -120,6 +122,7 @@ const AvailabilityProvider = ({ children }) => {
       const response = await axios.get(
         `${API_URL}/api/v1/doctorAvailability/${doctorId}`
       );
+      //console.log("API URL hey doctor check this out:", API_URL);
 
       dispatch({ type: "SET_AVAILABILITIES", payload: response.data });
     } catch (error) {
